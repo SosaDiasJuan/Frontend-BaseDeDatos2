@@ -1,0 +1,2 @@
+# Hooks transversales (no atados a un modulo).
+# Ejemplos: useDebounce, useLocalStorage, useFetch generico.
