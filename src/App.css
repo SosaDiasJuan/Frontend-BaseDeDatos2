@@ -38,3 +38,377 @@ p {
   font-size: 1.05rem;
   line-height: 1.6;
 }
+
+.auth-layout {
+  min-height: 100vh;
+  display: grid;
+  align-items: center;
+  padding: 32px;
+  background: #f6f7f9;
+  color: #172033;
+}
+
+.auth-panel {
+  width: min(100%, 440px);
+  margin: 0 auto;
+  padding: 32px;
+  border: 1px solid #dde4ef;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 18px 42px rgba(17, 30, 51, 0.08);
+}
+
+.auth-panel-wide {
+  width: min(100%, 860px);
+}
+
+.auth-form {
+  display: grid;
+  gap: 18px;
+}
+
+.auth-form h2 {
+  margin: 10px 0 0;
+  color: #26344d;
+  font-size: 1rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.auth-form label {
+  display: grid;
+  gap: 7px;
+  color: #32425c;
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.auth-form input {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #c7d0df;
+  border-radius: 6px;
+  background: #fff;
+  color: #172033;
+  font: inherit;
+}
+
+.auth-form input:focus {
+  border-color: #2563eb;
+  outline: 3px solid rgba(37, 99, 235, 0.14);
+}
+
+.auth-form button {
+  min-height: 46px;
+  border: 0;
+  border-radius: 6px;
+  background: #14532d;
+  color: #fff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.auth-form button:disabled {
+  cursor: wait;
+  opacity: 0.7;
+}
+
+.form-error {
+  padding: 10px 12px;
+  border: 1px solid #fecaca;
+  border-radius: 6px;
+  background: #fff1f2;
+  color: #b91c1c;
+  font-size: 0.95rem;
+}
+
+.auth-link {
+  margin-top: 18px;
+  font-size: 0.98rem;
+}
+
+.auth-link a {
+  color: #14532d;
+  font-weight: 800;
+}
+
+.home-layout {
+  min-height: 100vh;
+  display: grid;
+  align-items: start;
+  padding: 32px;
+  background: #f6f7f9;
+  color: #172033;
+}
+
+.home-panel {
+  width: min(100%, 980px);
+  margin: 0 auto;
+  padding: 32px;
+  border: 1px solid #dde4ef;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 18px 42px rgba(17, 30, 51, 0.08);
+}
+
+.home-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.secondary-button {
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid #c7d0df;
+  border-radius: 6px;
+  background: #fff;
+  color: #172033;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.secondary-button:hover {
+  border-color: #ef4444;
+  color: #b91c1c;
+}
+
+.home-actions {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.home-actions a {
+  min-height: 48px;
+  display: grid;
+  align-items: center;
+  padding: 0 16px;
+  border: 1px solid #d7deea;
+  border-radius: 6px;
+  color: #14532d;
+  background: #f8fafc;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.home-actions a:hover {
+  border-color: #14532d;
+  background: #f0fdf4;
+}
+
+.primary-button {
+  min-height: 38px;
+  padding: 0 16px;
+  border: 0;
+  border-radius: 6px;
+  background: #14532d;
+  color: #fff;
+  font: inherit;
+  font-weight: 800;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.primary-button:hover {
+  background: #166534;
+}
+
+.admin-section {
+  margin-top: 32px;
+  border-top: 1px solid #dde4ef;
+  padding-top: 24px;
+}
+
+.admin-section-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.admin-section-header h2 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #26344d;
+}
+
+.table-wrapper {
+  overflow-x: auto;
+  border: 1px solid #dde4ef;
+  border-radius: 6px;
+}
+
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.93rem;
+}
+
+.users-table th {
+  text-align: left;
+  padding: 10px 14px;
+  border-bottom: 2px solid #dde4ef;
+  color: #32425c;
+  font-weight: 700;
+  background: #f8fafc;
+}
+
+.users-table td {
+  padding: 10px 14px;
+  border-bottom: 1px solid #f0f3f8;
+  color: #172033;
+}
+
+.users-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.users-table tbody tr:hover td {
+  background: #f8fafc;
+}
+
+.rol-badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.rol-badge.Administrador {
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.rol-badge.Funcionario {
+  background: #fefce8;
+  color: #a16207;
+}
+
+.rol-badge.UsuarioGen {
+  background: #f0fdf4;
+  color: #166534;
+}
+
+.table-empty {
+  color: #5a6478;
+  font-size: 0.95rem;
+  padding: 12px 0;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(17, 30, 51, 0.45);
+  display: grid;
+  place-items: center;
+  z-index: 100;
+  padding: 32px;
+}
+
+.modal-panel {
+  width: min(100%, 680px);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 32px;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 24px 60px rgba(17, 30, 51, 0.18);
+}
+
+.modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-size: 1.2rem;
+  color: #172033;
+}
+
+.modal-close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  background: none;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+  color: #5a6478;
+}
+
+.modal-close:hover {
+  color: #b91c1c;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.auth-form select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #c7d0df;
+  border-radius: 6px;
+  background: #fff;
+  color: #172033;
+  font: inherit;
+}
+
+.auth-form select:focus {
+  border-color: #2563eb;
+  outline: 3px solid rgba(37, 99, 235, 0.14);
+}
+
+.required-mark {
+  color: #dc2626;
+  margin-left: 2px;
+}
+
+@media (max-width: 700px) {
+  .auth-layout {
+    padding: 20px;
+  }
+
+  .auth-panel {
+    padding: 24px;
+  }
+
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-layout {
+    padding: 20px;
+  }
+
+  .home-panel {
+    padding: 24px;
+  }
+
+  .home-header {
+    display: grid;
+  }
+
+  .secondary-button {
+    width: 100%;
+  }
+}

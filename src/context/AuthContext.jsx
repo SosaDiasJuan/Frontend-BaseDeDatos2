@@ -4,6 +4,8 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { setAuthToken } from '../config/apiClient.js';
 
+import React from 'react'
+
 const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
