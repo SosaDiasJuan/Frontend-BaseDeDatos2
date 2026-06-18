@@ -1,12 +1,26 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute.jsx'
 import MisEntradasPage from '../modules/entradas/pages/MisEntradasPage.jsx'
+import HomePage from '../modules/usuarios/pages/HomePage.jsx'
+import LoginPage from '../modules/usuarios/pages/LoginPage.jsx'
+import RegisterPage from '../modules/usuarios/pages/RegisterPage.jsx'
+
+import React from 'react'
 
 export default function AppRouter() {
   return (
     <Routes>
-      <Route path="/login" element={<PlaceholderPage title="Login" />} />
-      <Route path="/registro" element={<PlaceholderPage title="Registro" />} />
+      <Route path="/login" element={<LoginPage />} />
+      <Route path="/registro" element={<RegisterPage />} />
+
+      <Route
+        path="/home"
+        element={
+          <ProtectedRoute>
+            <HomePage />
+          </ProtectedRoute>
+        }
+      />
 
       <Route
         path="/eventos"
@@ -98,7 +112,7 @@ export default function AppRouter() {
         }
       />
 
-      <Route path="/" element={<Navigate to="/eventos" replace />} />
+      <Route path="/" element={<Navigate to="/home" replace />} />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )
