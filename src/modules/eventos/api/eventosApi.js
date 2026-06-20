@@ -1,6 +1,11 @@
 import { apiClient } from '../../../config/apiClient.js';
 
 export const eventosApi = {
-  listar:  ()      => apiClient.get('/eventos'),
-  // TODO: obtener(id), crear(data), habilitarSector(idEvento, idSector).
+  listar: () => apiClient.get('/eventos'),
+  crear: (datos) => apiClient.post('/eventos', datos),
+  actualizar: (idEvento, datos) => apiClient.put(`/eventos/${idEvento}`, datos),
+  habilitarSectores: (idEvento, idsSectores) => (
+    apiClient.post(`/eventos/${idEvento}/sectores`, { ids_sectores: idsSectores })
+  ),
+  ranking: () => apiClient.get('/eventos/ranking/ventas'),
 };
