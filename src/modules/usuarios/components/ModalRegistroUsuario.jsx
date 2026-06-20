@@ -65,6 +65,7 @@ export default function ModalRegistroUsuario({ onClose, onSuccess }) {
       }),
       ...(form.rol === 'Administrador' && {
         fecha_asignacion: form.fecha_asignacion || undefined,
+        nombre_pais: form.nombre_pais,
       }),
     };
 
@@ -181,10 +182,16 @@ export default function ModalRegistroUsuario({ onClose, onSuccess }) {
           {form.rol === 'Administrador' && (
             <>
               <h2>Datos de administrador</h2>
-              <label>
-                Fecha de asignacion
-                <input type="date" name="fecha_asignacion" value={form.fecha_asignacion} onChange={handleChange} />
-              </label>
+              <div className="form-grid">
+                <label>
+                  <Req>Pais de jurisdiccion</Req>
+                  <input name="nombre_pais" value={form.nombre_pais} onChange={handleChange} required />
+                </label>
+                <label>
+                  Fecha de asignacion
+                  <input type="date" name="fecha_asignacion" value={form.fecha_asignacion} onChange={handleChange} />
+                </label>
+              </div>
             </>
           )}
 
