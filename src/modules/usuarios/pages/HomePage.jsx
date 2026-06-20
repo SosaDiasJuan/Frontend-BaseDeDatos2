@@ -3,6 +3,8 @@ import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext.jsx';
 import { useListaUsuarios } from '../hooks/useUsuarios.js';
 import ModalRegistroUsuario from '../components/ModalRegistroUsuario.jsx';
+import { useEventos } from '../../eventos/hooks/useEventos.js';
+import { agruparEventos } from '../../eventos/utils/eventos.js';
 import React from 'react';
 
 export default function HomePage() {
@@ -10,6 +12,8 @@ export default function HomePage() {
   const { usuario, logout } = useAuth();
   const [showModal, setShowModal] = useState(false);
   const { usuarios, loading: loadingUsuarios, recargar } = useListaUsuarios();
+  const { eventos: filasEventos } = useEventos();
+  const cantidadEventos = agruparEventos(filasEventos).length;
 
   function handleLogout() {
     logout();
@@ -31,7 +35,10 @@ export default function HomePage() {
         </div>
 
         <nav className="home-actions" aria-label="Accesos principales">
-          <Link to="/eventos">Eventos</Link>
+          <Link to="/eventos" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+            Eventos
+            {cantidadEventos > 0 && <span className="nav-badge">{cantidadEventos}</span>}
+          </Link>
           {usuario?.rol === 'UsuarioGen' && <Link to="/mis-entradas">Mis entradas</Link>}
           {usuario?.rol === 'UsuarioGen' && <Link to="/mis-compras">Mis compras</Link>}
           {usuario?.rol === 'UsuarioGen' && <Link to="/mis-transferencias">Mis transferencias</Link>}

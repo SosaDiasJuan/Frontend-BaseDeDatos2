@@ -1,7 +1,8 @@
-// Pantalla "Mis entradas" del usuario logueado.
-// Orquesta: pide email del AuthContext, llama al hook, renderiza con componentes del modulo.
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext.jsx';
 import { useEntradasDeUsuario } from '../hooks/useEntradas.js';
+
+import React from 'react';
 
 export default function MisEntradasPage() {
   const { usuario } = useAuth();
@@ -9,17 +10,88 @@ export default function MisEntradasPage() {
   const { entradas, loading, error } = useEntradasDeUsuario(email);
 
   if (!email) return <p>Inicia sesion para ver tus entradas.</p>;
-  if (loading) return <p>Cargando entradas...</p>;
-  if (error) return <p>Error: {error.message}</p>;
-  if (entradas.length === 0) return <p>No tenes entradas todavia.</p>;
 
   return (
-    <ul>
-      {entradas.map(e => (
-        <li key={e.id}>
-          Entrada #{e.id} — estado: {e.estado} — sector: {e.id_sector}
-        </li>
-      ))}
-    </ul>
+    <div className="events-layout">
+      <div className="events-shell">
+        <div className="page-header">
+          <div>
+            <p className="eyebrow">Copa Mundial 2026</p>
+            <h1 style={{ fontSize: '1.8rem', marginBottom: 6 }}>Mis Entradas</h1>
+            <p style={{ fontSize: '0.95rem' }}>Entradas que posees actualmente.</p>
+          </div>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <Link to="/" className="back-link">← Home</Link>
+            <Link to="/mis-transferencias" className="back-link">Ver transferencias</Link>
+          </div>
+        </div>
+
+        {loading && <p>Cargando entradas...</p>}
+        {error && <p className="form-error">Error: {error.message}</p>}
+
+        {!loading && !error && entradas.length === 0 && (
+          <div className="events-list-panel">
+            <p className="table-empty">No tenés entradas todavia.</p>
+          </div>
+        )}
+
+        {entradas.length > 0 && (
+          <div className="events-list-panel">
+            <h2>Entradas ({entradas.length})</h2>
+            <div className="table-wrapper" style={{ marginTop: 16 }}>
+              <table className="users-table">
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Estado</th>
+                    <th>Evento</th>
+                    <th>Sector</th>
+                    <th>Transferencias</th>
+                    <th>Acciones</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {entradas.map(e => {
+                    const puedeTransferir = e.estado === 'emitida' && e.nro_transferencias < 3;
+                    return (
+                      <tr key={e.id}>
+                        <td>#{e.id}</td>
+                        <td>
+                          <span
+                            className="rol-badge"
+                            style={e.estado === 'consumida'
+                              ? { background: '#f1f5f9', color: '#64748b' }
+                              : { background: '#f0fdf4', color: '#166534' }
+                            }
+                          >
+                            {e.estado}
+                          </span>
+                        </td>
+                        <td>{e.id_evento}</td>
+                        <td>{e.id_sector}</td>
+                        <td style={{ textAlign: 'center' }}>{e.nro_transferencias}/3</td>
+                        <td>
+                          {puedeTransferir ? (
+                            <Link
+                              to={`/transferir/${e.id}`}
+                              className="primary-button"
+                              style={{ display: 'inline-grid', minHeight: 30, fontSize: '0.82rem', padding: '0 10px', textDecoration: 'none' }}
+                            >
+                              Transferir
+                            </Link>
+                          ) : (
+                            <span style={{ color: '#94a3b8', fontSize: '0.85rem' }}>—</span>
+                          )}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
   );
 }
