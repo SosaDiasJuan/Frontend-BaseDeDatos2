@@ -5,6 +5,8 @@ import HomePage from '../modules/usuarios/pages/HomePage.jsx'
 import LoginPage from '../modules/usuarios/pages/LoginPage.jsx'
 import RegisterPage from '../modules/usuarios/pages/RegisterPage.jsx'
 import AdminEstadiosPage from '../modules/estadios/pages/AdminEstadiosPage.jsx'
+import EventosPage from '../modules/eventos/pages/EventosPage.jsx'
+import AdminEventosPage from '../modules/eventos/pages/AdminEventosPage.jsx'
 
 import React from 'react'
 
@@ -27,7 +29,7 @@ export default function AppRouter() {
         path="/eventos"
         element={
           <ProtectedRoute>
-            <PlaceholderPage title="Listado de eventos" />
+            <EventosPage />
           </ProtectedRoute>
         }
       />
@@ -99,7 +101,7 @@ export default function AppRouter() {
         path="/admin/eventos"
         element={
           <ProtectedRoute rol="Administrador">
-            <PlaceholderPage title="Admin eventos" />
+            <AdminEventosPage />
           </ProtectedRoute>
         }
       />

@@ -1,24 +1,24 @@
 import { useCallback, useEffect, useState } from 'react';
 import { eventosApi } from '../api/eventosApi.js';
 
-export function useEventos() {
+export function useRankingEventos() {
   const [version, setVersion] = useState(0);
   const [state, setState] = useState({
-    eventos: [],
+    ranking: [],
     loading: true,
     error: null,
   });
 
   useEffect(() => {
-    let cancel = false;
-    eventosApi.listar()
-      .then(data => {
-        if (!cancel) setState({ eventos: data, loading: false, error: null });
+    let cancelado = false;
+    eventosApi.ranking()
+      .then((ranking) => {
+        if (!cancelado) setState({ ranking, loading: false, error: null });
       })
-      .catch(err => {
-        if (!cancel) setState({ eventos: [], loading: false, error: err });
+      .catch((error) => {
+        if (!cancelado) setState({ ranking: [], loading: false, error });
       });
-    return () => { cancel = true; };
+    return () => { cancelado = true; };
   }, [version]);
 
   const recargar = useCallback(() => setVersion((actual) => actual + 1), []);

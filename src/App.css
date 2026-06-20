@@ -584,6 +584,17 @@ p {
   text-align: center;
 }
 
+.count-label {
+  flex: 0 0 auto;
+  padding: 5px 10px;
+  border-radius: 999px;
+  background: #e8eef7;
+  color: #32425c;
+  font-size: 0.78rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
 .stadium-cards {
   display: grid;
   gap: 12px;
@@ -656,6 +667,351 @@ p {
   color: #475569;
 }
 
+.events-layout {
+  min-height: 100vh;
+  padding: 32px;
+  background: #f6f7f9;
+  color: #172033;
+}
+
+.events-shell {
+  width: min(100%, 1180px);
+  margin: 0 auto;
+}
+
+.events-grid,
+.admin-events-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(300px, 0.7fr);
+  gap: 24px;
+  align-items: start;
+}
+
+.events-grid-single {
+  grid-template-columns: 1fr;
+}
+
+.admin-events-grid {
+  grid-template-columns: minmax(340px, 0.85fr) minmax(440px, 1.25fr);
+}
+
+.events-list-panel,
+.ranking-panel,
+.event-form {
+  padding: 28px;
+  border: 1px solid #dde4ef;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 14px 36px rgba(17, 30, 51, 0.06);
+}
+
+.events-list-panel h2,
+.ranking-panel h2,
+.event-form h2 {
+  margin: 0;
+  color: #26344d;
+  font-size: 1.15rem;
+}
+
+.event-cards {
+  display: grid;
+  gap: 14px;
+  margin-top: 20px;
+}
+
+.event-card {
+  padding: 18px;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  background: #f8fafc;
+}
+
+.event-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.event-card-header h2 {
+  margin: 3px 0 5px;
+  color: #172033;
+  font-size: 1.12rem;
+}
+
+.event-card-header h2 span {
+  color: #64748b;
+  font-size: 0.82em;
+  font-weight: 600;
+}
+
+.event-card-header p {
+  font-size: 0.88rem;
+}
+
+.event-card-header .event-date {
+  color: #1d4ed8;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.event-sectors {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(125px, 1fr));
+  gap: 8px;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid #e2e8f0;
+}
+
+.event-sector {
+  display: grid;
+  gap: 2px;
+  padding: 10px;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.event-sector strong {
+  color: #172033;
+  font-size: 0.9rem;
+}
+
+.event-sector span {
+  color: #166534;
+  font-size: 0.85rem;
+  font-weight: 800;
+}
+
+.event-sector small,
+.ranking-name small,
+.sector-option small {
+  color: #64748b;
+  font-size: 0.76rem;
+}
+
+.ranking-list {
+  display: grid;
+  gap: 10px;
+  margin: 20px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.ranking-list li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #f8fafc;
+}
+
+.ranking-position {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: #dbeafe;
+  color: #1d4ed8;
+  font-weight: 900;
+}
+
+.ranking-name {
+  display: grid;
+  gap: 2px;
+  min-width: 0;
+}
+
+.ranking-name strong {
+  overflow: hidden;
+  color: #26344d;
+  font-size: 0.88rem;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.event-form {
+  display: grid;
+  gap: 18px;
+}
+
+.event-form label {
+  display: grid;
+  gap: 7px;
+  color: #32425c;
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.event-form input,
+.event-form select {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #c7d0df;
+  border-radius: 6px;
+  background: #fff;
+  color: #172033;
+}
+
+.event-form input:focus,
+.event-form select:focus {
+  border-color: #2563eb;
+  outline: 3px solid rgba(37, 99, 235, 0.14);
+}
+
+.event-form > .primary-button {
+  min-height: 46px;
+}
+
+.event-form-actions,
+.event-admin-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.event-form-actions > button {
+  flex: 1 1 0;
+}
+
+.event-form-columns {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.sector-selector {
+  min-width: 0;
+  margin: 0;
+  padding: 14px;
+  border: 1px solid #dbe3ee;
+  border-radius: 6px;
+  background: #f8fafc;
+}
+
+.sector-selector legend {
+  padding: 0 5px;
+  color: #32425c;
+  font-size: 0.9rem;
+  font-weight: 800;
+}
+
+.sector-options {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.sector-option {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.sector-option input {
+  width: 18px;
+  min-height: 18px;
+  margin: 0;
+}
+
+.sector-option span {
+  display: grid;
+  gap: 1px;
+}
+
+.form-hint {
+  color: #64748b;
+  font-size: 0.86rem;
+}
+
+.event-manage-button {
+  width: 100%;
+  min-height: 38px;
+  margin-top: 14px;
+  border: 1px solid #bbd0ee;
+  border-radius: 6px;
+  background: #eff6ff;
+  color: #1d4ed8;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.event-admin-actions {
+  margin-top: 14px;
+}
+
+.event-admin-actions .event-manage-button {
+  margin-top: 0;
+}
+
+.edit-event-button {
+  width: 100%;
+  min-height: 38px;
+  border: 1px solid #c7d0df;
+  border-radius: 6px;
+  background: #fff;
+  color: #172033;
+  font: inherit;
+  font-size: 0.86rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.edit-event-button:hover {
+  border-color: #14532d;
+  color: #14532d;
+}
+
+.event-list-message {
+  margin-top: 16px;
+}
+
+.event-manage-button:hover {
+  border-color: #2563eb;
+  background: #dbeafe;
+}
+
+.enable-sectors-panel {
+  display: grid;
+  gap: 12px;
+  margin-top: 14px;
+  padding: 14px;
+  border: 1px solid #bfdbfe;
+  border-radius: 6px;
+  background: #eff6ff;
+}
+
+.enable-sectors-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: #1e3a5f;
+  font-size: 0.9rem;
+}
+
+.enable-sectors-header button {
+  border: 0;
+  background: transparent;
+  color: #475569;
+  font: inherit;
+  font-size: 0.8rem;
+  font-weight: 800;
+  cursor: pointer;
+}
+
 @media (max-width: 700px) {
   .auth-layout {
     padding: 20px;
@@ -695,6 +1051,17 @@ p {
   }
 
   .stadiums-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .events-layout {
+    padding: 20px;
+  }
+
+  .events-grid,
+  .admin-events-grid,
+  .event-form-columns,
+  .sector-options {
     grid-template-columns: 1fr;
   }
 

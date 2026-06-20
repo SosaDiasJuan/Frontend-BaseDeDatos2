@@ -4,7 +4,7 @@
 //
 // La URL base se lee de la variable de entorno VITE_API_URL (definida en .env).
 // Si no existe, cae al default de desarrollo (backend local en puerto 3000).
-const BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000/api';
+const BASE_URL = import.meta.env?.VITE_API_URL || 'http://localhost:3000/api';
 
 // Token de auth (lo setea el AuthContext al loguearse).
 let authToken = null;
