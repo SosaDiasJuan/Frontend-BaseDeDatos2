@@ -4,6 +4,7 @@ import MisEntradasPage from '../modules/entradas/pages/MisEntradasPage.jsx'
 import HomePage from '../modules/usuarios/pages/HomePage.jsx'
 import LoginPage from '../modules/usuarios/pages/LoginPage.jsx'
 import RegisterPage from '../modules/usuarios/pages/RegisterPage.jsx'
+import AdminEstadiosPage from '../modules/estadios/pages/AdminEstadiosPage.jsx'
 
 import React from 'react'
 
@@ -89,7 +90,7 @@ export default function AppRouter() {
         path="/admin/estadios"
         element={
           <ProtectedRoute rol="Administrador">
-            <PlaceholderPage title="Admin estadios" />
+            <AdminEstadiosPage />
           </ProtectedRoute>
         }
       />
