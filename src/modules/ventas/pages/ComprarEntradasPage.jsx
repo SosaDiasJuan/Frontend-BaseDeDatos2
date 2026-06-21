@@ -24,6 +24,7 @@ export default function ComprarEntradasPage() {
   const checkout = useCheckout();
   const cargarVenta = checkout.cargar;
   const [cantidades, setCantidades] = useState({});
+  const [ventaEnPago, setVentaEnPago] = useState(null);
   const ventaId = searchParams.get('venta');
   const evento = useMemo(
     () => agruparEventos(filas).find((item) => item.id === Number(idEvento)),
@@ -40,6 +41,8 @@ export default function ComprarEntradasPage() {
   const totalEstimado = totalConComision(subtotal, configuracion?.comision_vigente);
   const requiereVerificacion = configuracion?.exigir_verificacion
     && usuario?.estado_verificacion !== true;
+  const mostrandoPagoPendiente = checkout.venta?.estado === 'pendiente'
+    && ventaEnPago === checkout.venta.id;
 
   function cambiarCantidad(sector, cambio) {
     setCantidades((actual) => {
@@ -62,16 +65,9 @@ export default function ComprarEntradasPage() {
     } catch { /* el hook muestra el error */ }
   }
 
-  async function confirmarVenta() {
-    try {
-      await checkout.confirmar(checkout.venta.id);
-      recargar();
-    } catch { /* el hook muestra el error */ }
-  }
-
   async function pagarVenta() {
     try {
-      await checkout.pagar(checkout.venta.id);
+      await checkout.completar(checkout.venta.id);
       recargar();
     } catch { /* el hook muestra el error */ }
   }
@@ -84,12 +80,16 @@ export default function ComprarEntradasPage() {
   }
 
   async function volverASeleccion() {
+    const cantidadesAnteriores = Object.fromEntries(
+      (checkout.venta?.items || []).map((item) => [Number(item.id_sector), Number(item.cantidad)])
+    );
     if (checkout.venta && ['pendiente', 'confirmada'].includes(checkout.venta.estado)) {
       try { await checkout.cancelar(checkout.venta.id); } catch { return; }
     }
     checkout.reiniciar();
+    setVentaEnPago(null);
     setSearchParams({});
-    setCantidades({});
+    setCantidades(cantidadesAnteriores);
     recargar();
   }
 
@@ -103,12 +103,12 @@ export default function ComprarEntradasPage() {
           <div>
             <p className="eyebrow">Compra de entradas</p>
             <h1>Checkout</h1>
-            <p>Elegí sectores, confirmá el cupo y completá el pago.</p>
+            <p>Elegí sectores, revisá tu compra y completá el pago.</p>
           </div>
           <Link className="back-link" to="/eventos">Volver a eventos</Link>
         </header>
 
-        <Stepper estado={checkout.venta?.estado} />
+        <Stepper estado={checkout.venta?.estado} pasoForzado={mostrandoPagoPendiente ? 3 : null} />
 
         {cargando ? (
           <section className="checkout-panel"><p>Cargando evento...</p></section>
@@ -168,18 +168,24 @@ export default function ComprarEntradasPage() {
                     disabled={checkout.loading || totalSeleccionado === 0 || requiereVerificacion}
                   >{checkout.loading ? 'Creando...' : 'Crear compra'}</button>
                 )}
-                {checkout.venta?.estado === 'pendiente' && (
+                {checkout.venta?.estado === 'pendiente' && !mostrandoPagoPendiente && (
                   <>
-                    <button className="primary-button" type="button" onClick={confirmarVenta} disabled={checkout.loading}>
-                      {checkout.loading ? 'Confirmando...' : 'Confirmar y emitir entradas'}
+                    <button className="primary-button" type="button" onClick={() => setVentaEnPago(checkout.venta.id)} disabled={checkout.loading}>
+                      Continuar al pago
+                    </button>
+                    <button className="secondary-button" type="button" onClick={volverASeleccion} disabled={checkout.loading}>
+                      ← Volver a seleccionar
                     </button>
                     <button className="secondary-button" type="button" onClick={cancelarVenta} disabled={checkout.loading}>Cancelar</button>
                   </>
                 )}
-                {checkout.venta?.estado === 'confirmada' && (
+                {checkout.venta?.estado === 'pendiente' && mostrandoPagoPendiente && (
                   <>
                     <button className="primary-button" type="button" onClick={pagarVenta} disabled={checkout.loading}>
                       {checkout.loading ? 'Procesando...' : 'Pagar compra'}
+                    </button>
+                    <button className="secondary-button" type="button" onClick={() => setVentaEnPago(null)} disabled={checkout.loading}>
+                      ← Volver
                     </button>
                     <button className="secondary-button" type="button" onClick={cancelarVenta} disabled={checkout.loading}>Cancelar</button>
                   </>
@@ -224,8 +230,8 @@ export default function ComprarEntradasPage() {
   );
 }
 
-function Stepper({ estado }) {
-  const paso = estado === 'paga' ? 3 : estado === 'confirmada' ? 3 : estado === 'pendiente' ? 2 : 1;
+function Stepper({ estado, pasoForzado }) {
+  const paso = pasoForzado ?? (estado === 'paga' ? 3 : estado === 'confirmada' ? 3 : estado === 'pendiente' ? 2 : 1);
   return (
     <ol className="checkout-stepper" aria-label="Progreso de la compra">
       {['Selección', 'Confirmación', 'Pago'].map((label, index) => (

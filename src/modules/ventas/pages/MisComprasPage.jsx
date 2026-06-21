@@ -52,7 +52,7 @@ export default function MisComprasPage() {
           <div>
             <p className="eyebrow">Historial de compra</p>
             <h1>Mis compras</h1>
-            <p>Retomá operaciones pendientes y consultá sus entradas.</p>
+            <p>Consultá el historial y el estado de tus compras.</p>
           </div>
           <Link className="back-link" to="/home">Volver al inicio</Link>
         </header>
@@ -91,18 +91,13 @@ export default function MisComprasPage() {
                           <td>{Number(venta.cantidad_entradas)}</td>
                           <td>{formatearPrecio(venta.monto_total)}</td>
                           <td>
-                            <div className="table-actions">
-                              <button className="text-button" type="button" onClick={() => alternarDetalle(venta.id)}>
+                            <div className="table-actions sales-actions">
+                              <button className="purchase-action purchase-action-detail" type="button" onClick={() => alternarDetalle(venta.id)}>
                                 {detalle ? 'Ocultar' : 'Detalle'}
                               </button>
                               {['pendiente', 'confirmada'].includes(venta.estado) && (
-                                <Link className="table-action-link" to={`/comprar/${venta.id_evento}?venta=${venta.id}`}>
-                                  {venta.estado === 'pendiente' ? 'Continuar' : 'Pagar'}
-                                </Link>
-                              )}
-                              {['pendiente', 'confirmada'].includes(venta.estado) && (
                                 <button
-                                  className="text-button text-button-danger"
+                                  className="purchase-action purchase-action-cancel"
                                   type="button"
                                   disabled={accionando === venta.id}
                                   onClick={() => cancelar(venta.id)}
