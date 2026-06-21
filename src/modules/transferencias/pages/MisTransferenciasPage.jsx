@@ -43,8 +43,8 @@ export default function MisTransferenciasPage() {
               <th>#</th>
               <th>Entrada</th>
               {mostrarAcciones
-                ? <th>Receptor</th>
-                : <th>Emisor</th>
+                ? <th>Emisor</th>
+                : <th>Receptor</th>
               }
               <th>Fecha solicitud</th>
               <th>Estado</th>
@@ -60,7 +60,7 @@ export default function MisTransferenciasPage() {
                   <td>{t.id}</td>
                   <td>#{t.id_entrada}</td>
                   <td style={{ fontSize: '0.88rem' }}>
-                    {mostrarAcciones ? t.email_receptor : t.email_emisor}
+                    {mostrarAcciones ? t.email_emisor : t.email_receptor}
                   </td>
                   <td style={{ fontSize: '0.88rem', whiteSpace: 'nowrap' }}>
                     {new Date(t.fecha_solicitud).toLocaleDateString('es-UY')}
