@@ -1,4 +1,4 @@
-import { Routes, Route, Navigate } from 'react-router-dom'
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom'
 import ProtectedRoute from './ProtectedRoute.jsx'
 import MisEntradasPage from '../modules/entradas/pages/MisEntradasPage.jsx'
 import HomePage from '../modules/usuarios/pages/HomePage.jsx'
@@ -7,6 +7,8 @@ import RegisterPage from '../modules/usuarios/pages/RegisterPage.jsx'
 import AdminEstadiosPage from '../modules/estadios/pages/AdminEstadiosPage.jsx'
 import EventosPage from '../modules/eventos/pages/EventosPage.jsx'
 import AdminEventosPage from '../modules/eventos/pages/AdminEventosPage.jsx'
+import MisTransferenciasPage from '../modules/transferencias/pages/MisTransferenciasPage.jsx'
+import TransferirEntradaPage from '../modules/transferencias/pages/TransferirEntradaPage.jsx'
 
 import React from 'react'
 
@@ -74,7 +76,7 @@ export default function AppRouter() {
         path="/mis-transferencias"
         element={
           <ProtectedRoute rol="UsuarioGen">
-            <PlaceholderPage title="Mis transferencias" />
+            <MisTransferenciasPage />
           </ProtectedRoute>
         }
       />
@@ -83,7 +85,7 @@ export default function AppRouter() {
         path="/transferir/:idEntrada"
         element={
           <ProtectedRoute rol="UsuarioGen">
-            <PlaceholderPage title="Transferir entrada" />
+            <TransferirEntradaPage />
           </ProtectedRoute>
         }
       />
@@ -122,12 +124,14 @@ export default function AppRouter() {
 }
 
 function PlaceholderPage({ title }) {
+  const navigate = useNavigate();
   return (
     <main className="app">
       <section className="panel">
         <p className="eyebrow">Base de Datos 2</p>
         <h1>{title}</h1>
         <p>Ruta activa. Falta conectar la pantalla definitiva del modulo.</p>
+        <button className="back-link" onClick={() => navigate(-1)} style={{ marginTop: 16 }}>← Volver</button>
       </section>
     </main>
   )

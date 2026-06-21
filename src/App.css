@@ -206,6 +206,21 @@ p {
   background: #f0fdf4;
 }
 
+.nav-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #dc2626;
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.7rem;
+  font-weight: 700;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 4px;
+  line-height: 1;
+}
+
 .primary-button {
   min-height: 38px;
   padding: 0 16px;
