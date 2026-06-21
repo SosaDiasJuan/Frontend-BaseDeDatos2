@@ -4,6 +4,7 @@ import { useEntradasMias } from '../hooks/useEntradas.js';
 import { puedeTransferirEntrada } from '../../ventas/utils/ventas.js';
 import EntradaQrModal from '../components/EntradaQrModal.jsx';
 import { useState } from 'react';
+import { useTransferenciasDeUsuario } from '../../transferencias/hooks/useTransferencias.js';
 
 import React from 'react';
 
@@ -12,6 +13,13 @@ export default function MisEntradasPage() {
   const email = usuario?.email;
   const { entradas, loading, error } = useEntradasMias(Boolean(email));
   const [entradaQr, setEntradaQr] = useState(null);
+  const { transferencias } = useTransferenciasDeUsuario(email);
+
+  function tienePendienteComoEmisor(idEntrada) {
+    return transferencias.some(
+      t => t.id_entrada === idEntrada && t.estado === 'pendiente' && t.email_emisor === email
+    );
+  }
 
   if (!email) return <p>Inicia sesion para ver tus entradas.</p>;
 
@@ -76,22 +84,29 @@ export default function MisEntradasPage() {
                         <td style={{ textAlign: 'center' }}>{e.nro_transferencias}/3</td>
                         <td>
                           <div className="table-actions">
-                          {e.estado === 'emitida' && e.estado_venta === 'paga' && (
-                            <button className="text-button" type="button" onClick={() => setEntradaQr(e)}>Ver QR</button>
-                          )}
-                          {puedeTransferir ? (
-                            <Link
-                              to={`/transferir/${e.id}`}
-                              className="primary-button"
-                              style={{ display: 'inline-grid', minHeight: 30, fontSize: '0.82rem', padding: '0 10px', textDecoration: 'none' }}
-                            >
-                              Transferir
-                            </Link>
-                          ) : (
-                            <span style={{ color: '#64748b', fontSize: '0.82rem' }}>
-                              {e.estado_venta !== 'paga' ? 'Pago pendiente' : '—'}
-                            </span>
-                          )}
+                            {e.estado === 'emitida' && e.estado_venta === 'paga' && (
+                              <button className="text-button" type="button" onClick={() => setEntradaQr(e)}>Ver QR</button>
+                            )}
+                            {puedeTransferir && tienePendienteComoEmisor(e.id) ? (
+                              <span
+                                className="rol-badge"
+                                style={{ background: '#f1f5f9', color: '#64748b', cursor: 'default' }}
+                              >
+                                Pendiente
+                              </span>
+                            ) : puedeTransferir ? (
+                              <Link
+                                to={`/transferir/${e.id}`}
+                                className="primary-button"
+                                style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minHeight: 30, fontSize: '0.82rem', padding: '0 10px', textDecoration: 'none' }}
+                              >
+                                Transferir
+                              </Link>
+                            ) : (
+                              <span style={{ color: '#64748b', fontSize: '0.82rem' }}>
+                                {e.estado_venta !== 'paga' ? 'Pago pendiente' : '—'}
+                              </span>
+                            )}
                           </div>
                         </td>
                       </tr>
