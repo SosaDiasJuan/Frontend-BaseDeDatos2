@@ -85,7 +85,20 @@ export default function MisEntradasPage() {
                         <td>
                           <div className="table-actions">
                             {e.estado === 'emitida' && e.estado_venta === 'paga' && (
-                              <button className="text-button" type="button" onClick={() => setEntradaQr(e)}>Ver QR</button>
+                              <button
+                                className="primary-button"
+                                type="button"
+                                style={{
+                                  minHeight: 30,
+                                  fontSize: '0.82rem',
+                                  padding: '0 10px',
+                                  ...(tienePendienteComoEmisor(e.id) && { background: '#e2e8f0', color: '#64748b', cursor: 'not-allowed' })
+                                }}
+                                onClick={() => setEntradaQr(e)}
+                                disabled={tienePendienteComoEmisor(e.id)}
+                              >
+                                Ver QR
+                              </button>
                             )}
                             {puedeTransferir && tienePendienteComoEmisor(e.id) ? (
                               <span
@@ -98,7 +111,7 @@ export default function MisEntradasPage() {
                               <Link
                                 to={`/transferir/${e.id}`}
                                 className="primary-button"
-                                style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minHeight: 30, fontSize: '0.82rem', padding: '0 10px', textDecoration: 'none' }}
+                                style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minHeight: 30, fontSize: '0.82rem', padding: '0 10px', textDecoration: 'none', lineHeight: 1 }}
                               >
                                 Transferir
                               </Link>
