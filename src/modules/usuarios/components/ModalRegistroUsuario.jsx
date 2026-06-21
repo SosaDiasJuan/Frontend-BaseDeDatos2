@@ -149,7 +149,11 @@ export default function ModalRegistroUsuario({ onClose, onSuccess }) {
             </label>
             <label>
               <Req>Tipo</Req>
-              <input name="documento_tipo" value={form.documento_tipo} onChange={handleChange} required />
+              <select name="documento_tipo" value={form.documento_tipo} onChange={handleChange} required>
+                <option value="">Seleccionar...</option>
+                <option value="Cedula">Cedula</option>
+                <option value="Pasaporte">Pasaporte</option>
+              </select>
             </label>
             <label>
               <Req>Telefonos</Req>
