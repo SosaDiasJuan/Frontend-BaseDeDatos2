@@ -9,6 +9,8 @@ import EventosPage from '../modules/eventos/pages/EventosPage.jsx'
 import AdminEventosPage from '../modules/eventos/pages/AdminEventosPage.jsx'
 import MisTransferenciasPage from '../modules/transferencias/pages/MisTransferenciasPage.jsx'
 import TransferirEntradaPage from '../modules/transferencias/pages/TransferirEntradaPage.jsx'
+import ComprarEntradasPage from '../modules/ventas/pages/ComprarEntradasPage.jsx'
+import MisComprasPage from '../modules/ventas/pages/MisComprasPage.jsx'
 
 import React from 'react'
 
@@ -49,7 +51,7 @@ export default function AppRouter() {
         path="/comprar/:idEvento"
         element={
           <ProtectedRoute rol="UsuarioGen">
-            <PlaceholderPage title="Comprar entradas" />
+            <ComprarEntradasPage />
           </ProtectedRoute>
         }
       />
@@ -67,7 +69,7 @@ export default function AppRouter() {
         path="/mis-compras"
         element={
           <ProtectedRoute rol="UsuarioGen">
-            <PlaceholderPage title="Mis compras" />
+            <MisComprasPage />
           </ProtectedRoute>
         }
       />

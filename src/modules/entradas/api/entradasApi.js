@@ -2,7 +2,6 @@
 import { apiClient } from '../../../config/apiClient.js';
 
 export const entradasApi = {
-  listarPorUsuario: (email) => apiClient.get(`/entradas/usuario/${encodeURIComponent(email)}`),
+  listarMias:       ()      => apiClient.get('/entradas/mias'),
   obtener:          (id)    => apiClient.get(`/entradas/${id}`),
-  // TODO: transferir, validar, etc.
 };

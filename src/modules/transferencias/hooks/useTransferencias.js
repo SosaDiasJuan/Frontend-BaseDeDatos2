@@ -8,7 +8,6 @@ export function useTransferenciasDeUsuario(email) {
 
   const cargar = useCallback(() => {
     if (!email) return;
-    setLoading(true);
     transferenciasApi.listarPorUsuario(email)
       .then(data => { setTransferencias(data); setError(null); })
       .catch(err => setError(err))
@@ -17,7 +16,12 @@ export function useTransferenciasDeUsuario(email) {
 
   useEffect(() => { cargar(); }, [cargar]);
 
-  return { transferencias, loading, error, recargar: cargar };
+  const recargar = useCallback(() => {
+    setLoading(true);
+    cargar();
+  }, [cargar]);
+
+  return { transferencias, loading, error, recargar };
 }
 
 export function useSolicitarTransferencia() {

@@ -3,21 +3,23 @@ import { usuariosApi } from '../api/usuariosApi.js';
 
 export function useListaUsuarios() {
   const [usuarios, setUsuarios] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [tick, setTick] = useState(0);
 
   useEffect(() => {
     let cancel = false;
-    setLoading(true);
-    setError(null);
     usuariosApi.listar()
       .then((data) => { if (!cancel) { setUsuarios(data); setLoading(false); } })
       .catch((err) => { if (!cancel) { setError(err); setLoading(false); } });
     return () => { cancel = true; };
   }, [tick]);
 
-  const recargar = useCallback(() => setTick((t) => t + 1), []);
+  const recargar = useCallback(() => {
+    setLoading(true);
+    setError(null);
+    setTick((t) => t + 1);
+  }, []);
   return { usuarios, loading, error, recargar };
 }
 

@@ -27,12 +27,15 @@ async function request(path, { method = 'GET', body, headers = {} } = {}) {
 
   if (!res.ok) {
     let errorMsg = `HTTP ${res.status}`;
+    let errorCode = 'ERROR';
     try {
       const data = await res.json();
       errorMsg = data.error || errorMsg;
+      errorCode = data.code || errorCode;
     } catch { /* la respuesta no era JSON */ }
     const err = new Error(errorMsg);
     err.status = res.status;
+    err.code = errorCode;
     throw err;
   }
 

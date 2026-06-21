@@ -1,13 +1,14 @@
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext.jsx';
-import { useEntradasDeUsuario } from '../hooks/useEntradas.js';
+import { useEntradasMias } from '../hooks/useEntradas.js';
+import { puedeTransferirEntrada } from '../../ventas/utils/ventas.js';
 
 import React from 'react';
 
 export default function MisEntradasPage() {
   const { usuario } = useAuth();
   const email = usuario?.email;
-  const { entradas, loading, error } = useEntradasDeUsuario(email);
+  const { entradas, loading, error } = useEntradasMias(Boolean(email));
 
   if (!email) return <p>Inicia sesion para ver tus entradas.</p>;
 
@@ -52,7 +53,7 @@ export default function MisEntradasPage() {
                 </thead>
                 <tbody>
                   {entradas.map(e => {
-                    const puedeTransferir = e.estado === 'emitida' && e.nro_transferencias < 3;
+                    const puedeTransferir = puedeTransferirEntrada(e);
                     return (
                       <tr key={e.id}>
                         <td>#{e.id}</td>
@@ -80,7 +81,9 @@ export default function MisEntradasPage() {
                               Transferir
                             </Link>
                           ) : (
-                            <span style={{ color: '#94a3b8', fontSize: '0.85rem' }}>—</span>
+                            <span style={{ color: '#64748b', fontSize: '0.82rem' }}>
+                              {e.estado_venta !== 'paga' ? 'Pago pendiente' : '—'}
+                            </span>
                           )}
                         </td>
                       </tr>

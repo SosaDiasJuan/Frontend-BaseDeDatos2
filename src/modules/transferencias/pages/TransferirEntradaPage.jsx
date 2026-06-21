@@ -1,10 +1,9 @@
-import { useState } from 'react';
-import { useParams, useNavigate, Link } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useParams, Link } from 'react-router-dom';
 import { useSolicitarTransferencia } from '../hooks/useTransferencias.js';
 
 export default function TransferirEntradaPage() {
   const { idEntrada } = useParams();
-  const navigate = useNavigate();
   const { solicitar, loading, error } = useSolicitarTransferencia();
   const [emailReceptor, setEmailReceptor] = useState('');
   const [exito, setExito] = useState(false);
