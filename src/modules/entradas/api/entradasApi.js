@@ -4,4 +4,5 @@ import { apiClient } from '../../../config/apiClient.js';
 export const entradasApi = {
   listarMias:       ()      => apiClient.get('/entradas/mias'),
   obtener:          (id)    => apiClient.get(`/entradas/${id}`),
+  generarQr:        (id)    => apiClient.get(`/entradas/${id}/qr`),
 };

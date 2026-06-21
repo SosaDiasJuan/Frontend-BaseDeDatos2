@@ -15,6 +15,8 @@ export function agruparEventos(filas = []) {
         equipo_local: fila.equipo_local,
         id_equipo_visitante: Number(fila.id_equipo_visitante),
         equipo_visitante: fila.equipo_visitante,
+        cerrado: Boolean(fila.cerrado),
+        fecha_cierre: fila.fecha_cierre,
         sectores: [],
       });
     }

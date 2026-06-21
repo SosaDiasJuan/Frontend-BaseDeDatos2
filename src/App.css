@@ -1271,6 +1271,47 @@ p {
   color: #b91c1c;
 }
 
+.sales-actions {
+  flex-wrap: nowrap;
+  gap: 8px;
+}
+
+.purchase-action {
+  display: inline-grid;
+  min-height: 32px;
+  place-items: center;
+  padding: 0 11px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font: inherit;
+  font-size: 0.78rem;
+  font-weight: 800;
+  text-decoration: none;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.purchase-action-detail {
+  border-color: #93c5fd;
+  background: #eff6ff;
+  color: #1d4ed8;
+}
+
+.purchase-action-cancel {
+  border-color: #fca5a5;
+  background: #fef2f2;
+  color: #b91c1c;
+}
+
+.purchase-action:hover {
+  filter: brightness(0.97);
+}
+
+.purchase-action:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 .sale-status {
   display: inline-flex;
   padding: 4px 9px;
@@ -1334,6 +1375,121 @@ p {
   font-weight: 800;
   cursor: pointer;
 }
+
+.qr-modal {
+  width: min(100%, 430px);
+}
+
+.qr-content {
+  display: grid;
+  justify-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.qr-content code {
+  width: 100%;
+  overflow-wrap: anywhere;
+  padding: 10px;
+  border-radius: 6px;
+  background: #f1f5f9;
+  color: #334155;
+}
+
+.validation-shell {
+  width: min(100%, 720px);
+  margin: 0 auto;
+}
+
+.validation-panel {
+  display: grid;
+  gap: 20px;
+  padding: 28px;
+  border: 1px solid #dde4ef;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 14px 36px rgba(17, 30, 51, 0.06);
+}
+
+.validation-panel label {
+  display: grid;
+  gap: 8px;
+  color: #32425c;
+  font-weight: 700;
+}
+
+.validation-panel input,
+.validation-panel select {
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid #c7d0df;
+  border-radius: 6px;
+  background: #fff;
+  color: #172033;
+  font: inherit;
+}
+
+.assignments-panel {
+  display: grid;
+  gap: 14px;
+  margin-top: 12px;
+  padding: 16px;
+  border: 1px solid #bfdbfe;
+  border-radius: 7px;
+  background: #f8fafc;
+}
+
+.assignments-panel h3 {
+  margin: 4px 0 0;
+  font-size: 0.95rem;
+}
+
+.assignment-grid {
+  display: grid;
+  gap: 10px;
+}
+
+.assignment-grid fieldset {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 12px;
+  border: 1px solid #dbe3ee;
+  border-radius: 6px;
+  background: #fff;
+}
+
+.assignment-grid legend {
+  font-weight: 800;
+}
+
+.assignment-grid label {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.86rem;
+}
+
+.coverage-list {
+  display: grid;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.coverage-list li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 9px 10px;
+  border-radius: 5px;
+  background: #fff;
+  font-size: 0.84rem;
+}
+
+.coverage-ok { color: #166534; }
+.coverage-pending { color: #b45309; }
 
 @media (max-width: 700px) {
   .auth-layout {
