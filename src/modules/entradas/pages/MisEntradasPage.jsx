@@ -2,6 +2,8 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext.jsx';
 import { useEntradasMias } from '../hooks/useEntradas.js';
 import { puedeTransferirEntrada } from '../../ventas/utils/ventas.js';
+import EntradaQrModal from '../components/EntradaQrModal.jsx';
+import { useState } from 'react';
 
 import React from 'react';
 
@@ -9,6 +11,7 @@ export default function MisEntradasPage() {
   const { usuario } = useAuth();
   const email = usuario?.email;
   const { entradas, loading, error } = useEntradasMias(Boolean(email));
+  const [entradaQr, setEntradaQr] = useState(null);
 
   if (!email) return <p>Inicia sesion para ver tus entradas.</p>;
 
@@ -72,6 +75,10 @@ export default function MisEntradasPage() {
                         <td>{e.id_sector}</td>
                         <td style={{ textAlign: 'center' }}>{e.nro_transferencias}/3</td>
                         <td>
+                          <div className="table-actions">
+                          {e.estado === 'emitida' && e.estado_venta === 'paga' && (
+                            <button className="text-button" type="button" onClick={() => setEntradaQr(e)}>Ver QR</button>
+                          )}
                           {puedeTransferir ? (
                             <Link
                               to={`/transferir/${e.id}`}
@@ -85,6 +92,7 @@ export default function MisEntradasPage() {
                               {e.estado_venta !== 'paga' ? 'Pago pendiente' : '—'}
                             </span>
                           )}
+                          </div>
                         </td>
                       </tr>
                     );
@@ -94,6 +102,7 @@ export default function MisEntradasPage() {
             </div>
           </div>
         )}
+        {entradaQr && <EntradaQrModal entrada={entradaQr} onClose={() => setEntradaQr(null)} />}
       </div>
     </div>
   );

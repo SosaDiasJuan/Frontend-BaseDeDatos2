@@ -6,6 +6,7 @@ import { equiposApi } from '../api/equiposApi.js';
 import EventoCard from '../components/EventoCard.jsx';
 import EventoForm from '../components/EventoForm.jsx';
 import HabilitarSectoresEvento from '../components/HabilitarSectoresEvento.jsx';
+import AsignacionesEvento from '../components/AsignacionesEvento.jsx';
 import { useEventos } from '../hooks/useEventos.js';
 import { agruparEventos, filtrarPorJurisdiccion } from '../utils/eventos.js';
 
@@ -116,6 +117,7 @@ export default function AdminEventosPage() {
                       </button>
                       <HabilitarSectoresEvento evento={evento} onActualizado={recargar} />
                     </div>
+                    <AsignacionesEvento evento={evento} onActualizado={recargar} />
                   </EventoCard>
                 ))}
               </div>

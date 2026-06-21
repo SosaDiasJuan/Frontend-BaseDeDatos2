@@ -11,6 +11,7 @@ import MisTransferenciasPage from '../modules/transferencias/pages/MisTransferen
 import TransferirEntradaPage from '../modules/transferencias/pages/TransferirEntradaPage.jsx'
 import ComprarEntradasPage from '../modules/ventas/pages/ComprarEntradasPage.jsx'
 import MisComprasPage from '../modules/ventas/pages/MisComprasPage.jsx'
+import ValidarEntradaPage from '../modules/validacion/pages/ValidarEntradaPage.jsx'
 
 import React from 'react'
 
@@ -114,7 +115,7 @@ export default function AppRouter() {
         path="/validar"
         element={
           <ProtectedRoute rol="Funcionario">
-            <PlaceholderPage title="Validar entrada" />
+            <ValidarEntradaPage />
           </ProtectedRoute>
         }
       />
