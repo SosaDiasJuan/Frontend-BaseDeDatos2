@@ -40,7 +40,7 @@ export default function TransferirEntradaPage() {
   return (
     <main className="auth-layout">
       <div className="auth-panel">
-        <Link to="/mis-entradas" className="back-link" style={{ display: 'inline-block', marginBottom: 20 }}>
+        <Link to="/mis-entradas" className="back-link" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
           Volver
         </Link>
         <p className="eyebrow">Transferencia</p>

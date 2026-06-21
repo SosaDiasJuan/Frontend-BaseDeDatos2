@@ -31,6 +31,80 @@ export default function MisTransferenciasPage() {
 
   if (!email) return <p>Inicia sesion para ver tus transferencias.</p>;
 
+  const enviadas = transferencias.filter(t => t.email_emisor === email);
+  const recibidas = transferencias.filter(t => t.email_receptor === email);
+
+  function TablaTransferencias({ filas, mostrarAcciones }) {
+    return (
+      <div className="table-wrapper" style={{ marginTop: 16 }}>
+        <table className="users-table">
+          <thead>
+            <tr>
+              <th>#</th>
+              <th>Entrada</th>
+              {mostrarAcciones
+                ? <th>Receptor</th>
+                : <th>Emisor</th>
+              }
+              <th>Fecha solicitud</th>
+              <th>Estado</th>
+              {mostrarAcciones && <th>Acciones</th>}
+            </tr>
+          </thead>
+          <tbody>
+            {filas.map(t => {
+              const cfg = ESTADO_LABEL[t.estado] ?? { label: t.estado, color: '#475569', bg: '#f1f5f9' };
+              const esPendienteParaMi = t.estado === 'pendiente' && t.email_receptor === email;
+              return (
+                <tr key={t.id}>
+                  <td>{t.id}</td>
+                  <td>#{t.id_entrada}</td>
+                  <td style={{ fontSize: '0.88rem' }}>
+                    {mostrarAcciones ? t.email_receptor : t.email_emisor}
+                  </td>
+                  <td style={{ fontSize: '0.88rem', whiteSpace: 'nowrap' }}>
+                    {new Date(t.fecha_solicitud).toLocaleDateString('es-UY')}
+                  </td>
+                  <td>
+                    <span className="rol-badge" style={{ background: cfg.bg, color: cfg.color }}>
+                      {cfg.label}
+                    </span>
+                  </td>
+                  {mostrarAcciones && (
+                    <td>
+                      {esPendienteParaMi ? (
+                        <div style={{ display: 'flex', gap: 8 }}>
+                          <button
+                            className="primary-button"
+                            style={{ minHeight: 30, fontSize: '0.82rem', padding: '0 10px' }}
+                            disabled={respondiendo}
+                            onClick={() => handleResponder(t.id, 'aceptar')}
+                          >
+                            Aceptar
+                          </button>
+                          <button
+                            className="secondary-button"
+                            style={{ minHeight: 30, fontSize: '0.82rem', padding: '0 10px' }}
+                            disabled={respondiendo}
+                            onClick={() => handleResponder(t.id, 'rechazar')}
+                          >
+                            Rechazar
+                          </button>
+                        </div>
+                      ) : (
+                        <span style={{ color: '#94a3b8', fontSize: '0.85rem' }}>—</span>
+                      )}
+                    </td>
+                  )}
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+    );
+  }
+
   return (
     <div className="events-layout">
       <div className="events-shell">
@@ -52,73 +126,17 @@ export default function MisTransferenciasPage() {
           </div>
         )}
 
-        {transferencias.length > 0 && (
+        {recibidas.length > 0 && (
           <div className="events-list-panel">
-            <h2>Transferencias ({transferencias.length})</h2>
-            <div className="table-wrapper" style={{ marginTop: 16 }}>
-              <table className="users-table">
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Entrada</th>
-                    <th>Emisor</th>
-                    <th>Receptor</th>
-                    <th>Fecha solicitud</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {transferencias.map(t => {
-                    const cfg = ESTADO_LABEL[t.estado] ?? { label: t.estado, color: '#475569', bg: '#f1f5f9' };
-                    const esPendienteParaMi = t.estado === 'pendiente' && t.email_receptor === email;
-                    return (
-                      <tr key={t.id}>
-                        <td>{t.id}</td>
-                        <td>#{t.id_entrada}</td>
-                        <td style={{ fontSize: '0.88rem' }}>{t.email_emisor}</td>
-                        <td style={{ fontSize: '0.88rem' }}>{t.email_receptor}</td>
-                        <td style={{ fontSize: '0.88rem', whiteSpace: 'nowrap' }}>
-                          {new Date(t.fecha_solicitud).toLocaleDateString('es-UY')}
-                        </td>
-                        <td>
-                          <span
-                            className="rol-badge"
-                            style={{ background: cfg.bg, color: cfg.color }}
-                          >
-                            {cfg.label}
-                          </span>
-                        </td>
-                        <td>
-                          {esPendienteParaMi ? (
-                            <div style={{ display: 'flex', gap: 8 }}>
-                              <button
-                                className="primary-button"
-                                style={{ minHeight: 30, fontSize: '0.82rem', padding: '0 10px' }}
-                                disabled={respondiendo}
-                                onClick={() => handleResponder(t.id, 'aceptar')}
-                              >
-                                Aceptar
-                              </button>
-                              <button
-                                className="secondary-button"
-                                style={{ minHeight: 30, fontSize: '0.82rem', padding: '0 10px' }}
-                                disabled={respondiendo}
-                                onClick={() => handleResponder(t.id, 'rechazar')}
-                              >
-                                Rechazar
-                              </button>
-                            </div>
-                          ) : (
-                            <span style={{ color: '#94a3b8', fontSize: '0.85rem' }}>—</span>
-                          )}
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </div>
+            <h2>Recibidas ({recibidas.length})</h2>
+            <TablaTransferencias filas={recibidas} mostrarAcciones={true} />
+          </div>
+        )}
+
+        {enviadas.length > 0 && (
+          <div className="events-list-panel">
+            <h2>Enviadas ({enviadas.length})</h2>
+            <TablaTransferencias filas={enviadas} mostrarAcciones={false} />
           </div>
         )}
       </div>
