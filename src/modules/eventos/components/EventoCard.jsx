@@ -1,8 +1,9 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { formatearFecha, formatearHora } from '../utils/eventos.js';
 import SectoresEvento from './SectoresEvento.jsx';
 
-export default function EventoCard({ evento, children }) {
+export default function EventoCard({ evento, children, puedeComprar = false }) {
   return (
     <article className="event-card">
       <header className="event-card-header">
@@ -17,6 +18,11 @@ export default function EventoCard({ evento, children }) {
       </header>
 
       <SectoresEvento sectores={evento.sectores} />
+      {puedeComprar && (
+        <Link className="event-buy-button" to={`/comprar/${evento.id}`}>
+          Comprar entradas
+        </Link>
+      )}
       {children}
     </article>
   );

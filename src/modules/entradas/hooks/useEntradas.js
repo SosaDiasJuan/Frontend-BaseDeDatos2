@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react';
 import { entradasApi } from '../api/entradasApi.js';
 
-export function useEntradasDeUsuario(email) {
+export function useEntradasMias(habilitado = true) {
   const [state, setState] = useState({
     email: null,
     entradas: [],
@@ -12,26 +12,26 @@ export function useEntradasDeUsuario(email) {
   });
 
   useEffect(() => {
-    if (!email) return;
+    if (!habilitado) return;
     let cancel = false;
 
-    entradasApi.listarPorUsuario(email)
+    entradasApi.listarMias()
       .then(data => {
         if (!cancel) {
-          setState({ email, entradas: data, loading: false, error: null });
+          setState({ email: 'mias', entradas: data, loading: false, error: null });
         }
       })
       .catch(err => {
         if (!cancel) {
-          setState({ email, entradas: [], loading: false, error: err });
+          setState({ email: 'mias', entradas: [], loading: false, error: err });
         }
       });
     return () => { cancel = true; };
-  }, [email]);
+  }, [habilitado]);
 
   return {
-    entradas: state.email === email ? state.entradas : [],
-    loading: Boolean(email) && state.email !== email,
-    error: state.email === email ? state.error : null,
+    entradas: state.email === 'mias' ? state.entradas : [],
+    loading: habilitado && state.email !== 'mias',
+    error: state.email === 'mias' ? state.error : null,
   };
 }

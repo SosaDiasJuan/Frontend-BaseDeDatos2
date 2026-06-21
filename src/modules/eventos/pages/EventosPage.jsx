@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext.jsx';
 import EventoCard from '../components/EventoCard.jsx';
 import RankingEventos from '../components/RankingEventos.jsx';
+import RankingCompradores from '../../ventas/components/RankingCompradores.jsx';
 import { useEventos } from '../hooks/useEventos.js';
 import { agruparEventos, puedeVerRanking } from '../utils/eventos.js';
 
@@ -44,12 +45,23 @@ export default function EventosPage() {
               <p className="table-empty">Todavía no hay eventos con sectores habilitados.</p>
             ) : (
               <div className="event-cards">
-                {eventos.map((evento) => <EventoCard evento={evento} key={evento.id} />)}
+                {eventos.map((evento) => (
+                  <EventoCard
+                    evento={evento}
+                    key={evento.id}
+                    puedeComprar={usuario?.rol === 'UsuarioGen'}
+                  />
+                ))}
               </div>
             )}
           </section>
 
-          {mostrarRanking && <RankingEventos />}
+          {mostrarRanking && (
+            <aside className="rankings-column">
+              <RankingEventos />
+              <RankingCompradores />
+            </aside>
+          )}
         </div>
       </div>
     </main>
