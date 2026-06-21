@@ -87,7 +87,7 @@ function TablaTransferencias({ filas, mostrarAcciones, email, respondiendo = fal
           <tr>
             <th>#</th>
             <th>Entrada</th>
-            {mostrarAcciones ? <th>Receptor</th> : <th>Emisor</th>}
+            {mostrarAcciones ? <th>Emisor</th> : <th>Receptor</th>}
             <th>Fecha solicitud</th>
             <th>Estado</th>
             {mostrarAcciones && <th>Acciones</th>}
@@ -104,7 +104,7 @@ function TablaTransferencias({ filas, mostrarAcciones, email, respondiendo = fal
                 <td>{transferencia.id}</td>
                 <td>#{transferencia.id_entrada}</td>
                 <td style={{ fontSize: '0.88rem' }}>
-                  {mostrarAcciones ? transferencia.email_receptor : transferencia.email_emisor}
+                  {mostrarAcciones ? transferencia.email_emisor : transferencia.email_receptor}
                 </td>
                 <td style={{ fontSize: '0.88rem', whiteSpace: 'nowrap' }}>
                   {new Date(transferencia.fecha_solicitud).toLocaleDateString('es-UY')}

@@ -1,9 +1,12 @@
 // Estado + side effects del modulo entradas.
 // Los componentes consumen este hook, no llaman al api directamente.
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { entradasApi } from '../api/entradasApi.js';
 
+const POLL_MS = 15000;
+
 export function useEntradasMias(habilitado = true) {
+  const [version, setVersion] = useState(0);
   const [state, setState] = useState({
     email: null,
     entradas: [],
@@ -27,11 +30,20 @@ export function useEntradasMias(habilitado = true) {
         }
       });
     return () => { cancel = true; };
+  }, [habilitado, version]);
+
+  useEffect(() => {
+    if (!habilitado) return;
+    const id = setInterval(() => setVersion(v => v + 1), POLL_MS);
+    return () => clearInterval(id);
   }, [habilitado]);
+
+  const recargar = useCallback(() => setVersion(v => v + 1), []);
 
   return {
     entradas: state.email === 'mias' ? state.entradas : [],
     loading: habilitado && state.email !== 'mias',
     error: state.email === 'mias' ? state.error : null,
+    recargar,
   };
 }
