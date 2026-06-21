@@ -2,6 +2,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext.jsx';
 import { useEntradasMias } from '../hooks/useEntradas.js';
 import { puedeTransferirEntrada } from '../../ventas/utils/ventas.js';
+import { useTransferenciasDeUsuario } from '../../transferencias/hooks/useTransferencias.js';
 
 import React from 'react';
 
@@ -9,6 +10,13 @@ export default function MisEntradasPage() {
   const { usuario } = useAuth();
   const email = usuario?.email;
   const { entradas, loading, error } = useEntradasMias(Boolean(email));
+  const { transferencias } = useTransferenciasDeUsuario(email);
+
+  function tienePendienteComoEmisor(idEntrada) {
+    return transferencias.some(
+      t => t.id_entrada === idEntrada && t.estado === 'pendiente' && t.email_emisor === email
+    );
+  }
 
   if (!email) return <p>Inicia sesion para ver tus entradas.</p>;
 
@@ -72,11 +80,18 @@ export default function MisEntradasPage() {
                         <td>{e.id_sector}</td>
                         <td style={{ textAlign: 'center' }}>{e.nro_transferencias}/3</td>
                         <td>
-                          {puedeTransferir ? (
+                          {puedeTransferir && tienePendienteComoEmisor(e.id) ? (
+                            <span
+                              className="rol-badge"
+                              style={{ background: '#f1f5f9', color: '#64748b', cursor: 'default' }}
+                            >
+                              Pendiente
+                            </span>
+                          ) : puedeTransferir ? (
                             <Link
                               to={`/transferir/${e.id}`}
                               className="primary-button"
-                              style={{ display: 'inline-grid', minHeight: 30, fontSize: '0.82rem', padding: '0 10px', textDecoration: 'none' }}
+                              style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', minHeight: 30, fontSize: '0.82rem', padding: '0 10px', textDecoration: 'none' }}
                             >
                               Transferir
                             </Link>

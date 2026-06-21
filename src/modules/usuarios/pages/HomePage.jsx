@@ -5,6 +5,7 @@ import { useListaUsuarios } from '../hooks/useUsuarios.js';
 import ModalRegistroUsuario from '../components/ModalRegistroUsuario.jsx';
 import { useEventos } from '../../eventos/hooks/useEventos.js';
 import { agruparEventos } from '../../eventos/utils/eventos.js';
+import { useTransferenciasDeUsuario } from '../../transferencias/hooks/useTransferencias.js';
 import React from 'react';
 
 export default function HomePage() {
@@ -14,6 +15,10 @@ export default function HomePage() {
   const { usuarios, loading: loadingUsuarios, recargar } = useListaUsuarios();
   const { eventos: filasEventos } = useEventos();
   const cantidadEventos = agruparEventos(filasEventos).length;
+  const { transferencias } = useTransferenciasDeUsuario(usuario?.email);
+  const transferenciasPendientes = transferencias.filter(
+    t => t.estado === 'pendiente' && t.email_receptor === usuario?.email
+  ).length;
 
   function handleLogout() {
     logout();
@@ -41,7 +46,12 @@ export default function HomePage() {
           </Link>
           {usuario?.rol === 'UsuarioGen' && <Link to="/mis-entradas">Mis entradas</Link>}
           {usuario?.rol === 'UsuarioGen' && <Link to="/mis-compras">Mis compras</Link>}
-          {usuario?.rol === 'UsuarioGen' && <Link to="/mis-transferencias">Mis transferencias</Link>}
+          {usuario?.rol === 'UsuarioGen' && (
+            <Link to="/mis-transferencias" style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+              Mis transferencias
+              {transferenciasPendientes > 0 && <span className="nav-badge">{transferenciasPendientes}</span>}
+            </Link>
+          )}
           {usuario?.rol === 'Administrador' && <Link to="/admin/eventos">Admin eventos</Link>}
           {usuario?.rol === 'Administrador' && <Link to="/admin/estadios">Admin estadios</Link>}
           {usuario?.rol === 'Funcionario' && <Link to="/validar">Validar entrada</Link>}
