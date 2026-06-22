@@ -5,13 +5,19 @@ import EventoCard from '../components/EventoCard.jsx';
 import RankingEventos from '../components/RankingEventos.jsx';
 import RankingCompradores from '../../ventas/components/RankingCompradores.jsx';
 import { useEventos } from '../hooks/useEventos.js';
-import { agruparEventos, puedeVerRanking } from '../utils/eventos.js';
+import {
+  agruparEventos,
+  puedeVerRanking,
+  puedeVerRankingCompradores,
+} from '../utils/eventos.js';
 
 export default function EventosPage() {
   const { usuario } = useAuth();
   const { eventos: filas, loading, error } = useEventos();
   const eventos = agruparEventos(filas);
-  const mostrarRanking = puedeVerRanking(usuario?.rol);
+  const mostrarRankingEventos = puedeVerRanking(usuario?.rol);
+  const mostrarRankingCompradores = puedeVerRankingCompradores(usuario?.rol);
+  const mostrarRankings = mostrarRankingEventos || mostrarRankingCompradores;
 
   return (
     <main className="events-layout">
@@ -25,7 +31,7 @@ export default function EventosPage() {
           <Link className="back-link" to="/home">Volver al inicio</Link>
         </header>
 
-        <div className={mostrarRanking ? 'events-grid' : 'events-grid events-grid-single'}>
+        <div className={mostrarRankings ? 'events-grid' : 'events-grid events-grid-single'}>
           <section className="events-list-panel" aria-labelledby="events-title">
             <div className="list-heading">
               <div>
@@ -56,10 +62,10 @@ export default function EventosPage() {
             )}
           </section>
 
-          {mostrarRanking && (
+          {mostrarRankings && (
             <aside className="rankings-column">
-              <RankingEventos />
-              <RankingCompradores />
+              {mostrarRankingEventos && <RankingEventos />}
+              {mostrarRankingCompradores && <RankingCompradores />}
             </aside>
           )}
         </div>

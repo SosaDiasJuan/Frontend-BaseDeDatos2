@@ -36,10 +36,36 @@ export default function ValidarEntradaPage() {
           </label>
           {errorDispositivos && <p className="form-error">{errorDispositivos.message}</p>}
           {error && <p className="form-error" role="alert">{error.message}</p>}
-          {resultado && <p className="form-success" role="status">Entrada #{resultado.id_entrada} validada y consumida.</p>}
+          {resultado && (
+            <section className="validation-receipt form-success" role="status" aria-labelledby="validation-receipt-title">
+              <h2 id="validation-receipt-title">Validación exitosa</h2>
+              <dl>
+                <div><dt>Entrada</dt><dd>#{resultado.id_entrada}</dd></div>
+                <div><dt>Estado</dt><dd>{resultado.estado}</dd></div>
+                <div><dt>Fecha y hora</dt><dd>{formatearFechaHora(resultado.fecha_hora)}</dd></div>
+                <div>
+                  <dt>Funcionario</dt>
+                  <dd>{resultado.funcionario_nombre} {resultado.funcionario_apellido} · {resultado.email_funcionario}</dd>
+                </div>
+                <div>
+                  <dt>Dispositivo</dt>
+                  <dd>{resultado.device}{resultado.dispositivo_descripcion ? ` · ${resultado.dispositivo_descripcion}` : ''}</dd>
+                </div>
+                <div><dt>Código aceptado</dt><dd><code>{resultado.codigo_token}</code></dd></div>
+              </dl>
+            </section>
+          )}
           <button className="primary-button" type="submit" disabled={loading || !idDispositivo}>{loading ? 'Validando...' : 'Validar entrada'}</button>
         </form>
       </div>
     </main>
   );
+}
+
+function formatearFechaHora(valor) {
+  if (!valor) return '—';
+  return new Intl.DateTimeFormat('es-UY', {
+    dateStyle: 'short',
+    timeStyle: 'medium',
+  }).format(new Date(valor));
 }

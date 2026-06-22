@@ -14,9 +14,8 @@ const ESTADOS = {
 };
 
 export default function MisComprasPage() {
-  const { ventas, loading, error, recargar } = useVentasMias();
+  const { ventas, loading, error } = useVentasMias();
   const [detalles, setDetalles] = useState({});
-  const [accionando, setAccionando] = useState(null);
   const [errorAccion, setErrorAccion] = useState(null);
 
   async function alternarDetalle(id) {
@@ -29,19 +28,6 @@ export default function MisComprasPage() {
       setDetalles((actual) => ({ ...actual, [id]: detalle }));
     } catch (err) {
       setErrorAccion(err);
-    }
-  }
-
-  async function cancelar(id) {
-    setAccionando(id);
-    setErrorAccion(null);
-    try {
-      await ventasApi.cancelar(id);
-      recargar();
-    } catch (err) {
-      setErrorAccion(err);
-    } finally {
-      setAccionando(null);
     }
   }
 
@@ -95,14 +81,6 @@ export default function MisComprasPage() {
                               <button className="purchase-action purchase-action-detail" type="button" onClick={() => alternarDetalle(venta.id)}>
                                 {detalle ? 'Ocultar' : 'Detalle'}
                               </button>
-                              {['pendiente', 'confirmada'].includes(venta.estado) && (
-                                <button
-                                  className="purchase-action purchase-action-cancel"
-                                  type="button"
-                                  disabled={accionando === venta.id}
-                                  onClick={() => cancelar(venta.id)}
-                                >Cancelar</button>
-                              )}
                             </div>
                           </td>
                         </tr>

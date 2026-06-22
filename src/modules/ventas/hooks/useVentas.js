@@ -60,10 +60,6 @@ export function useCheckout() {
     (id) => ejecutar(() => ventasApi.pagar(id)),
     [ejecutar]
   );
-  const completar = useCallback(
-    (id) => ejecutar(() => ventasApi.completar(id)),
-    [ejecutar]
-  );
   const cancelar = useCallback(
     (id) => ejecutar(() => ventasApi.cancelar(id)),
     [ejecutar]
@@ -73,7 +69,7 @@ export function useCheckout() {
     setError(null);
   }, []);
 
-  return { venta, loading, error, cargar, crear, confirmar, pagar, completar, cancelar, reiniciar };
+  return { venta, loading, error, cargar, crear, confirmar, pagar, cancelar, reiniciar };
 }
 
 export function useVentasMias() {
