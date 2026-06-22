@@ -35,8 +35,6 @@ test('ventasApi y entradasApi respetan los contratos del backend', async (t) => 
       assert.equal(llamadas.at(-1).url, 'http://localhost:3000/api/ventas/12/confirmar');
       await ventasApi.pagar(12);
       assert.equal(llamadas.at(-1).url, 'http://localhost:3000/api/ventas/12/pagar');
-      await ventasApi.completar(12);
-      assert.equal(llamadas.at(-1).url, 'http://localhost:3000/api/ventas/12/completar');
       await ventasApi.cancelar(12);
       assert.equal(llamadas.at(-1).url, 'http://localhost:3000/api/ventas/12/cancelar');
       await ventasApi.rankingCompradores();

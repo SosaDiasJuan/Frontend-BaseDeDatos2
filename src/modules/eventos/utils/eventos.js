@@ -68,6 +68,10 @@ export function puedeVerRanking(rol) {
   return ['Administrador', 'UsuarioGen'].includes(rol);
 }
 
+export function puedeVerRankingCompradores(rol) {
+  return rol === 'Administrador';
+}
+
 export function sectoresNoHabilitados(sectoresEstadio, sectoresEvento) {
   const habilitados = new Set(sectoresEvento.map((sector) => Number(sector.id)));
   return sectoresEstadio.filter((sector) => !habilitados.has(Number(sector.id)));

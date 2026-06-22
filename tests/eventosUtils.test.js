@@ -5,6 +5,7 @@ import {
   filtrarPorJurisdiccion,
   formatearHora,
   puedeVerRanking,
+  puedeVerRankingCompradores,
   sectoresNoHabilitados,
 } from '../src/modules/eventos/utils/eventos.js';
 
@@ -68,6 +69,9 @@ test('aplica jurisdiccion y permisos para usuarios existentes o nuevos', () => {
   assert.equal(puedeVerRanking('Administrador'), true);
   assert.equal(puedeVerRanking('UsuarioGen'), true);
   assert.equal(puedeVerRanking('Funcionario'), false);
+  assert.equal(puedeVerRankingCompradores('Administrador'), true);
+  assert.equal(puedeVerRankingCompradores('UsuarioGen'), false);
+  assert.equal(puedeVerRankingCompradores('Funcionario'), false);
 });
 
 test('detecta los sectores que todavía pueden habilitarse', () => {

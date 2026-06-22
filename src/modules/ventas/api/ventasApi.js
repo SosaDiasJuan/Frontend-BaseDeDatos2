@@ -5,7 +5,6 @@ export const ventasApi = {
   crear: ({ id_evento, items }) => apiClient.post('/ventas', { id_evento, items }),
   confirmar: (id) => apiClient.post(`/ventas/${id}/confirmar`),
   pagar: (id) => apiClient.post(`/ventas/${id}/pagar`),
-  completar: (id) => apiClient.post(`/ventas/${id}/completar`),
   cancelar: (id) => apiClient.post(`/ventas/${id}/cancelar`),
   obtener: (id) => apiClient.get(`/ventas/${id}`),
   listarMias: () => apiClient.get('/ventas/mias'),
