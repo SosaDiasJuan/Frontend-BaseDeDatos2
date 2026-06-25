@@ -9,6 +9,7 @@ import HabilitarSectoresEvento from '../components/HabilitarSectoresEvento.jsx';
 import AsignacionesEvento from '../components/AsignacionesEvento.jsx';
 import { useEventos } from '../hooks/useEventos.js';
 import { agruparEventos, filtrarPorJurisdiccion } from '../utils/eventos.js';
+import BrandLockup from '../../../components/BrandLockup.jsx';
 
 export default function AdminEventosPage() {
   const { usuario } = useAuth();
@@ -63,7 +64,7 @@ export default function AdminEventosPage() {
       <div className="events-shell">
         <header className="page-header">
           <div>
-            <p className="eyebrow">Administración · RF-EV01 a RF-EV03</p>
+            <BrandLockup eyebrow="Administración de eventos" />
             <h1>Gestionar eventos</h1>
             <p>Crea partidos y habilita sectores dentro de {jurisdiccion || 'tu jurisdicción'}.</p>
           </div>

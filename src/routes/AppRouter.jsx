@@ -4,6 +4,8 @@ import MisEntradasPage from '../modules/entradas/pages/MisEntradasPage.jsx'
 import HomePage from '../modules/usuarios/pages/HomePage.jsx'
 import LoginPage from '../modules/usuarios/pages/LoginPage.jsx'
 import RegisterPage from '../modules/usuarios/pages/RegisterPage.jsx'
+import PerfilPage from '../modules/usuarios/pages/PerfilPage.jsx'
+import AdminFuncionariosPage from '../modules/usuarios/pages/AdminFuncionariosPage.jsx'
 import AdminEstadiosPage from '../modules/estadios/pages/AdminEstadiosPage.jsx'
 import EventosPage from '../modules/eventos/pages/EventosPage.jsx'
 import AdminEventosPage from '../modules/eventos/pages/AdminEventosPage.jsx'
@@ -26,6 +28,15 @@ export default function AppRouter() {
         element={
           <ProtectedRoute>
             <HomePage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/perfil"
+        element={
+          <ProtectedRoute rol="UsuarioGen">
+            <PerfilPage />
           </ProtectedRoute>
         }
       />
@@ -107,6 +118,15 @@ export default function AppRouter() {
         element={
           <ProtectedRoute rol="Administrador">
             <AdminEventosPage />
+          </ProtectedRoute>
+        }
+      />
+
+      <Route
+        path="/admin/funcionarios"
+        element={
+          <ProtectedRoute rol="Administrador">
+            <AdminFuncionariosPage />
           </ProtectedRoute>
         }
       />

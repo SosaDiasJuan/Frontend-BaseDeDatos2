@@ -1,9 +1,47 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { formatearFecha, formatearHora } from '../utils/eventos.js';
+import { banderaPais, formatearFecha, formatearHora, formatearPrecio } from '../utils/eventos.js';
 import SectoresEvento from './SectoresEvento.jsx';
 
-export default function EventoCard({ evento, children, puedeComprar = false }) {
+export default function EventoCard({ evento, children, puedeComprar = false, variant = 'default' }) {
+  if (variant === 'purchase') {
+    const disponibilidad = disponibilidadTotal(evento);
+    const precioMinimo = precioDesde(evento);
+    const finalizado = estaFinalizado(evento);
+    return (
+      <article className={`event-card event-card-purchase ${finalizado ? 'event-card-finished' : ''}`}>
+        <div className="event-match-visual" aria-hidden="true">
+          <span>{banderaPais(evento.equipo_local)}</span>
+          <strong>VS</strong>
+          <span>{banderaPais(evento.equipo_visitante)}</span>
+        </div>
+
+        <div className="event-purchase-main">
+          <p className="event-date">{formatearFecha(evento.fecha)} · {formatearHora(evento.hora)}</p>
+          <h2>{evento.equipo_local} <span>vs.</span> {evento.equipo_visitante}</h2>
+          <p>{evento.estadio} · {evento.pais}</p>
+          <div className="event-purchase-meta">
+            <span>{evento.sectores.length} sectores</span>
+            <span>{finalizado ? 'Finalizado' : `${disponibilidad.toLocaleString('es-UY')} disponibles`}</span>
+            <span>Desde {formatearPrecio(precioMinimo)}</span>
+          </div>
+        </div>
+
+        <div className="event-purchase-side">
+          <SectoresEvento sectores={evento.sectores} compact />
+          {puedeComprar && !finalizado ? (
+            <Link className="event-buy-button" to={`/comprar/${evento.id}`}>
+              Comprar entradas
+            </Link>
+          ) : finalizado ? (
+            <span className="event-unavailable">Partido finalizado</span>
+          ) : null}
+        </div>
+        {children}
+      </article>
+    );
+  }
+
   return (
     <article className="event-card">
       <header className="event-card-header">
@@ -26,4 +64,18 @@ export default function EventoCard({ evento, children, puedeComprar = false }) {
       {children}
     </article>
   );
+}
+
+function disponibilidadTotal(evento) {
+  return evento.sectores.reduce((total, sector) => total + Number(sector.disponibilidad || 0), 0);
+}
+
+function precioDesde(evento) {
+  return Math.min(...evento.sectores.map((sector) => Number(sector.precio || 0)));
+}
+
+function estaFinalizado(evento) {
+  const fecha = String(evento.fecha || '').slice(0, 10);
+  const hora = formatearHora(evento.hora) || '00:00';
+  return Boolean(evento.cerrado) || new Date(`${fecha}T${hora}:00Z`) < new Date();
 }

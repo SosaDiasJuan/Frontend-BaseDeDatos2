@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../context/AuthContext.jsx';
 import { estadiosApi } from '../api/estadiosApi.js';
+import BrandLockup from '../../../components/BrandLockup.jsx';
 
 const nuevoSector = () => ({ codigo: '', capacidad_maxima: '', costo_entrada: '' });
 const nuevoFormulario = () => ({ nombre: '', ciudad: '', sectores: [nuevoSector()] });
@@ -16,6 +17,10 @@ export default function AdminEstadiosPage() {
   const [editingId, setEditingId] = useState(null);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState('');
+  const [deleteTarget, setDeleteTarget] = useState(null);
+  const [deletePassword, setDeletePassword] = useState('');
+  const [deleteLoading, setDeleteLoading] = useState(false);
+  const [deleteError, setDeleteError] = useState(null);
 
   const jurisdiccion = usuario?.nombre_pais || '';
 
@@ -71,6 +76,39 @@ export default function AdminEstadiosPage() {
     }
   }
 
+  function solicitarBorrado(estadio) {
+    setDeleteTarget(estadio);
+    setDeletePassword('');
+    setDeleteError(null);
+  }
+
+  function cerrarBorrado() {
+    if (deleteLoading) return;
+    setDeleteTarget(null);
+    setDeletePassword('');
+    setDeleteError(null);
+  }
+
+  async function borrarEstadio(event) {
+    event.preventDefault();
+    if (!deleteTarget) return;
+    setError(null);
+    setSuccess('');
+    setDeleteError(null);
+    setDeleteLoading(true);
+    try {
+      await estadiosApi.eliminar(deleteTarget.id, deletePassword);
+      setEstadios((actuales) => actuales.filter((actual) => actual.id !== deleteTarget.id));
+      if (editingId === deleteTarget.id) cancelarEdicion();
+      setSuccess(`${deleteTarget.nombre} se borró correctamente.`);
+      cerrarBorrado();
+    } catch (err) {
+      setDeleteError(err.message);
+    } finally {
+      setDeleteLoading(false);
+    }
+  }
+
   useEffect(() => {
     let cancelado = false;
     estadiosApi.listar()
@@ -118,14 +156,14 @@ export default function AdminEstadiosPage() {
       <section className="stadiums-panel">
         <header className="page-header">
           <div>
-            <p className="eyebrow">Administracion · RF-08</p>
+            <BrandLockup eyebrow="Administración de sedes" />
             <h1>Estadios</h1>
             <p>Registra y consulta los estadios de tu pais sede.</p>
           </div>
           <Link className="back-link" to="/home">Volver al inicio</Link>
         </header>
 
-        <div className="stadiums-grid">
+        <div className={`stadiums-grid ${editingId ? 'stadiums-grid-editing' : ''}`}>
           <form className="stadium-form" onSubmit={handleSubmit}>
             <div>
               <p className="eyebrow">{editingId ? 'Editar estadio' : 'Nuevo estadio'}</p>
@@ -268,14 +306,24 @@ export default function AdminEstadiosPage() {
                         {estadio.pais === jurisdiccion ? 'Tu jurisdiccion' : estadio.pais}
                       </span>
                       {estadio.pais === jurisdiccion && (
-                        <button
-                          className="edit-stadium-button"
-                          type="button"
-                          disabled={loadingEdit}
-                          onClick={() => editarEstadio(estadio)}
-                        >
-                          Editar
-                        </button>
+                        <div className="stadium-card-buttons">
+                          <button
+                            className="edit-stadium-button"
+                            type="button"
+                            disabled={loadingEdit}
+                            onClick={() => editarEstadio(estadio)}
+                          >
+                            Editar
+                          </button>
+                          <button
+                            className="delete-stadium-button"
+                            type="button"
+                            disabled={loadingEdit}
+                            onClick={() => solicitarBorrado(estadio)}
+                          >
+                            Borrar
+                          </button>
+                        </div>
                       )}
                     </div>
                   </article>
@@ -285,6 +333,45 @@ export default function AdminEstadiosPage() {
           </section>
         </div>
       </section>
+
+      {deleteTarget && (
+        <div className="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="delete-stadium-title">
+          <section className="modal-panel delete-confirm-modal">
+            <div className="modal-header">
+              <div>
+                <p className="eyebrow">Confirmación de seguridad</p>
+                <h2 id="delete-stadium-title">Borrar estadio</h2>
+              </div>
+              <button className="modal-close" type="button" onClick={cerrarBorrado} aria-label="Cerrar">×</button>
+            </div>
+            <form className="auth-form" onSubmit={borrarEstadio}>
+              <p>
+                Vas a borrar <strong>{deleteTarget.nombre}</strong>. Para confirmar, ingresá tu contraseña.
+              </p>
+              <label>
+                Contraseña
+                <input
+                  type="password"
+                  value={deletePassword}
+                  onChange={(event) => setDeletePassword(event.target.value)}
+                  autoComplete="current-password"
+                  required
+                  autoFocus
+                />
+              </label>
+              {deleteError && <p className="form-error">{deleteError}</p>}
+              <div className="modal-actions">
+                <button className="secondary-button" type="button" onClick={cerrarBorrado} disabled={deleteLoading}>
+                  Cancelar
+                </button>
+                <button className="primary-button danger-button" type="submit" disabled={deleteLoading || !deletePassword}>
+                  {deleteLoading ? 'Borrando...' : 'Confirmar borrado'}
+                </button>
+              </div>
+            </form>
+          </section>
+        </div>
+      )}
     </main>
   );
 }

@@ -43,6 +43,58 @@ export function useRegistroAdmin() {
   return { registrarAdmin: ejecutar, loading, error, limpiarError: () => setError(null) };
 }
 
+export function useFuncionariosAdmin() {
+  const [state, setState] = useState({
+    funcionarios: [],
+    loading: true,
+    error: null,
+    tick: 0,
+  });
+
+  useEffect(() => {
+    let cancel = false;
+    usuariosApi.listarFuncionarios()
+      .then((funcionarios) => {
+        if (!cancel) setState((actual) => ({ ...actual, funcionarios, loading: false, error: null }));
+      })
+      .catch((error) => {
+        if (!cancel) setState((actual) => ({ ...actual, funcionarios: [], loading: false, error }));
+      });
+    return () => { cancel = true; };
+  }, [state.tick]);
+
+  const recargar = useCallback(() => {
+    setState((actual) => ({ ...actual, loading: true, error: null, tick: actual.tick + 1 }));
+  }, []);
+
+  return {
+    funcionarios: state.funcionarios,
+    loading: state.loading,
+    error: state.error,
+    recargar,
+  };
+}
+
+export function useGuardarFuncionarioAdmin() {
+  const [state, setState] = useState({ loading: false, error: null });
+
+  const guardar = useCallback(async (datos, emailActual = null) => {
+    setState({ loading: true, error: null });
+    try {
+      const resultado = emailActual
+        ? await usuariosApi.actualizarFuncionario(emailActual, datos)
+        : await usuariosApi.crearFuncionario(datos);
+      setState({ loading: false, error: null });
+      return resultado;
+    } catch (error) {
+      setState({ loading: false, error });
+      throw error;
+    }
+  }, []);
+
+  return { ...state, guardar, limpiarError: () => setState((actual) => ({ ...actual, error: null })) };
+}
+
 export function useLogin() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -114,4 +166,22 @@ export function usePerfil(email) {
     loading: Boolean(email) && state.email !== email,
     error: state.email === email ? state.error : null,
   };
+}
+
+export function useActualizarPerfil() {
+  const [state, setState] = useState({ loading: false, error: null, perfil: null });
+
+  const actualizar = useCallback(async (email, datos) => {
+    setState({ loading: true, error: null, perfil: null });
+    try {
+      const perfil = await usuariosApi.actualizarPerfil(email, datos);
+      setState({ loading: false, error: null, perfil });
+      return perfil;
+    } catch (err) {
+      setState({ loading: false, error: err, perfil: null });
+      throw err;
+    }
+  }, []);
+
+  return { ...state, actualizar, limpiarError: () => setState((actual) => ({ ...actual, error: null })) };
 }
