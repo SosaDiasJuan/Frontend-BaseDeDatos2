@@ -34,6 +34,14 @@ export function AuthProvider({ children }) {
     localStorage.removeItem('token');
   }
 
+  function actualizarUsuario(datos) {
+    setUsuario((actual) => {
+      const siguiente = { ...(actual || {}), ...datos };
+      localStorage.setItem('usuario', JSON.stringify(siguiente));
+      return siguiente;
+    });
+  }
+
   const value = {
     usuario,
     token,
@@ -41,6 +49,7 @@ export function AuthProvider({ children }) {
     rol: usuario?.rol || null,
     login,
     logout,
+    actualizarUsuario,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -2,6 +2,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useAuth } from '../../../context/AuthContext.jsx';
 import { useRegistro } from '../hooks/useUsuarios.js';
+import BrandLockup from '../../../components/BrandLockup.jsx';
 
 import React from 'react'
 
@@ -69,7 +70,7 @@ export default function RegisterPage() {
   return (
     <main className="auth-layout">
       <section className="auth-panel auth-panel-wide">
-        <p className="eyebrow">Mundial 2026</p>
+        <BrandLockup compact />
         <h1>Registro</h1>
         <form className="auth-form" onSubmit={handleSubmit}>
           <div className="form-grid">

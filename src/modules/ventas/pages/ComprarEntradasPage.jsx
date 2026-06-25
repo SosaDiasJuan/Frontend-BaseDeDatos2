@@ -12,6 +12,7 @@ import {
   sumarItems,
   totalConComision,
 } from '../utils/ventas.js';
+import BrandLockup from '../../../components/BrandLockup.jsx';
 
 import React from 'react';
 
@@ -105,7 +106,7 @@ export default function ComprarEntradasPage() {
       <div className="checkout-shell">
         <header className="page-header">
           <div>
-            <p className="eyebrow">Compra de entradas</p>
+            <BrandLockup compact eyebrow="Compra de entradas" />
             <h1>Checkout</h1>
             <p>Elegí sectores, revisá tu compra y completá el pago.</p>
           </div>

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { useSolicitarTransferencia } from '../hooks/useTransferencias.js';
+import BrandLockup from '../../../components/BrandLockup.jsx';
 
 export default function TransferirEntradaPage() {
   const { idEntrada } = useParams();
@@ -22,7 +23,7 @@ export default function TransferirEntradaPage() {
     return (
       <main className="auth-layout">
         <div className="auth-panel">
-          <p className="eyebrow">Transferencia</p>
+          <BrandLockup compact eyebrow="Transferencia" />
           <h1 style={{ fontSize: '1.6rem' }}>Solicitud enviada</h1>
           <p style={{ marginTop: 8 }}>
             La transferencia de la entrada #{idEntrada} fue enviada a <strong>{emailReceptor}</strong>.
@@ -43,7 +44,7 @@ export default function TransferirEntradaPage() {
         <Link to="/mis-entradas" className="back-link" style={{ display: 'inline-flex', alignItems: 'center', justifyContent: 'center', marginBottom: 20 }}>
           Volver
         </Link>
-        <p className="eyebrow">Transferencia</p>
+        <BrandLockup compact eyebrow="Transferencia" />
         <h1 style={{ fontSize: '1.6rem' }}>Transferir entrada #{idEntrada}</h1>
 
         <form className="auth-form" onSubmit={handleSubmit} style={{ marginTop: 20 }}>

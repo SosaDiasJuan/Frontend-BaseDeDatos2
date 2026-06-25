@@ -1,8 +1,9 @@
 import { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { formatearPrecio } from '../../eventos/utils/eventos.js';
+import { formatearFecha, formatearHora, formatearPrecio } from '../../eventos/utils/eventos.js';
 import { ventasApi } from '../api/ventasApi.js';
 import { useVentasMias } from '../hooks/useVentas.js';
+import BrandLockup from '../../../components/BrandLockup.jsx';
 
 import React from 'react';
 
@@ -36,7 +37,7 @@ export default function MisComprasPage() {
       <div className="events-shell">
         <header className="page-header">
           <div>
-            <p className="eyebrow">Historial de compra</p>
+            <BrandLockup compact eyebrow="Historial de compra" />
             <h1>Mis compras</h1>
             <p>Consultá el historial y el estado de tus compras.</p>
           </div>
@@ -59,7 +60,7 @@ export default function MisComprasPage() {
               <table className="users-table sales-table">
                 <thead>
                   <tr>
-                    <th>#</th><th>Fecha</th><th>Evento</th><th>Estado</th>
+                    <th>#</th><th>Fecha compra</th><th>Partido</th><th>Estado</th>
                     <th>Entradas</th><th>Total</th><th>Acciones</th>
                   </tr>
                 </thead>
@@ -72,7 +73,14 @@ export default function MisComprasPage() {
                         <tr>
                           <td>#{venta.id}</td>
                           <td>{formatearFechaHora(venta.fecha)}</td>
-                          <td>Evento #{venta.id_evento}</td>
+                          <td>
+                            <strong>{venta.equipo_local} vs. {venta.equipo_visitante}</strong>
+                            <small className="table-subtext">
+                              {formatearFecha(venta.evento_fecha)} · {formatearHora(venta.evento_hora)}
+                              {' · '}
+                              {venta.estadio} · {venta.evento_pais}
+                            </small>
+                          </td>
                           <td><span className={`sale-status ${clase}`}>{label}</span></td>
                           <td>{Number(venta.cantidad_entradas)}</td>
                           <td>{formatearPrecio(venta.monto_total)}</td>
@@ -91,14 +99,22 @@ export default function MisComprasPage() {
                                 <div>
                                   <strong>Detalle</strong>
                                   {detalle.items.map((item) => (
-                                    <p key={item.id_sector}>{item.sector} × {item.cantidad} · {formatearPrecio(item.precio_unitario)} c/u</p>
+                                    <p key={item.id_sector}>
+                                      {item.sector || `Sector ${item.id_sector}`} × {item.cantidad} · {formatearPrecio(item.precio_unitario)} c/u
+                                    </p>
                                   ))}
                                 </div>
                                 <div>
                                   <strong>Entradas emitidas</strong>
                                   {detalle.entradas.length === 0
                                     ? <p>Aún no se emitieron entradas.</p>
-                                    : <p>{detalle.entradas.map((entrada) => `#${entrada.id} (${entrada.estado})`).join(', ')}</p>}
+                                    : (
+                                      <p>
+                                        {detalle.entradas
+                                          .map((entrada) => `#${entrada.id} · ${entrada.sector || `Sector ${entrada.id_sector}`} (${entrada.estado})`)
+                                          .join(', ')}
+                                      </p>
+                                    )}
                                 </div>
                               </div>
                             </td>

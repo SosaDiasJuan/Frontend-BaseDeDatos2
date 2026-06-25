@@ -5,6 +5,8 @@ import { puedeTransferirEntrada } from '../../ventas/utils/ventas.js';
 import EntradaQrModal from '../components/EntradaQrModal.jsx';
 import { useState } from 'react';
 import { useTransferenciasDeUsuario } from '../../transferencias/hooks/useTransferencias.js';
+import { formatearFecha, formatearHora } from '../../eventos/utils/eventos.js';
+import BrandLockup from '../../../components/BrandLockup.jsx';
 
 import React from 'react';
 
@@ -28,7 +30,7 @@ export default function MisEntradasPage() {
       <div className="events-shell">
         <div className="page-header">
           <div>
-            <p className="eyebrow">Copa Mundial 2026</p>
+            <BrandLockup compact eyebrow="Mis entradas" />
             <h1 style={{ fontSize: '1.8rem', marginBottom: 6 }}>Mis Entradas</h1>
             <p style={{ fontSize: '0.95rem' }}>Entradas que posees actualmente.</p>
           </div>
@@ -56,8 +58,8 @@ export default function MisEntradasPage() {
                   <tr>
                     <th>#</th>
                     <th>Estado</th>
-                    <th>Evento</th>
-                    <th>Sector</th>
+                    <th>Partido</th>
+                    <th>Ubicación</th>
                     <th>Transferencias</th>
                     <th>Acciones</th>
                   </tr>
@@ -79,8 +81,18 @@ export default function MisEntradasPage() {
                             {e.estado}
                           </span>
                         </td>
-                        <td>{e.id_evento}</td>
-                        <td>{e.id_sector}</td>
+                        <td>
+                          <strong>{e.equipo_local} vs. {e.equipo_visitante}</strong>
+                          <small className="table-subtext">
+                            {formatearFecha(e.evento_fecha)} · {formatearHora(e.evento_hora)}
+                          </small>
+                        </td>
+                        <td>
+                          <strong>{e.sector || `Sector ${e.id_sector}`}</strong>
+                          <small className="table-subtext">
+                            {e.estadio ? `${e.estadio} · ${e.evento_pais}` : `Evento #${e.id_evento}`}
+                          </small>
+                        </td>
                         <td style={{ textAlign: 'center' }}>{e.nro_transferencias}/3</td>
                         <td>
                           <div className="table-actions">

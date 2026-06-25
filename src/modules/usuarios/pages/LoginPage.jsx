@@ -2,6 +2,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { useState } from 'react';
 import { useAuth } from '../../../context/AuthContext.jsx';
 import { useLogin } from '../hooks/useUsuarios.js';
+import BrandLockup from '../../../components/BrandLockup.jsx';
 
 import React from 'react'
 
@@ -33,7 +34,7 @@ export default function LoginPage() {
   return (
     <main className="auth-layout">
       <section className="auth-panel">
-        <p className="eyebrow">Mundial 2026</p>
+        <BrandLockup compact />
         <h1>Login</h1>
         <form className="auth-form" onSubmit={handleSubmit}>
           <label>

@@ -4,6 +4,7 @@ import {
   useTransferenciasDeUsuario,
   useResponderTransferencia,
 } from '../hooks/useTransferencias.js';
+import BrandLockup from '../../../components/BrandLockup.jsx';
 
 import React from 'react';
 
@@ -39,7 +40,7 @@ export default function MisTransferenciasPage() {
       <div className="events-shell">
         <div className="page-header">
           <div>
-            <p className="eyebrow">Copa Mundial 2026</p>
+            <BrandLockup compact eyebrow="Transferencias" />
             <h1 style={{ fontSize: '1.8rem', marginBottom: 6 }}>Mis Transferencias</h1>
             <p style={{ fontSize: '0.95rem' }}>Historial de entradas enviadas y recibidas.</p>
           </div>
