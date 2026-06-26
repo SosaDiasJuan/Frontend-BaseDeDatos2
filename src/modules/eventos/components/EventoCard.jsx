@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { banderaPais, formatearFecha, formatearHora, formatearPrecio } from '../utils/eventos.js';
+import { formatearFecha, formatearHora, formatearPrecio } from '../utils/eventos.js';
+import BanderaPais from './BanderaPais.jsx';
 import SectoresEvento from './SectoresEvento.jsx';
 
 export default function EventoCard({ evento, children, puedeComprar = false, variant = 'default' }) {
@@ -11,9 +12,9 @@ export default function EventoCard({ evento, children, puedeComprar = false, var
     return (
       <article className={`event-card event-card-purchase ${finalizado ? 'event-card-finished' : ''}`}>
         <div className="event-match-visual" aria-hidden="true">
-          <span>{banderaPais(evento.equipo_local)}</span>
+          <BanderaPais pais={evento.equipo_local} />
           <strong>VS</strong>
-          <span>{banderaPais(evento.equipo_visitante)}</span>
+          <BanderaPais pais={evento.equipo_visitante} />
         </div>
 
         <div className="event-purchase-main">
