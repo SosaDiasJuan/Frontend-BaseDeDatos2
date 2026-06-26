@@ -4,7 +4,8 @@ import { useAuth } from '../../../context/AuthContext.jsx';
 import { useListaUsuarios, usePerfil } from '../hooks/useUsuarios.js';
 import ModalRegistroUsuario from '../components/ModalRegistroUsuario.jsx';
 import { useEventos } from '../../eventos/hooks/useEventos.js';
-import { agruparEventos, banderaPais, formatearFecha, formatearHora } from '../../eventos/utils/eventos.js';
+import { agruparEventos, formatearFecha, formatearHora } from '../../eventos/utils/eventos.js';
+import BanderaPais from '../../eventos/components/BanderaPais.jsx';
 import { useEntradasMias } from '../../entradas/hooks/useEntradas.js';
 import { useTransferenciasDeUsuario } from '../../transferencias/hooks/useTransferencias.js';
 import RankingCompradores from '../../ventas/components/RankingCompradores.jsx';
@@ -224,9 +225,9 @@ function HomeMatchCard({ evento, showTicketCount = false, usuario }) {
   return (
     <Link className={`home-match-card ${estaFinalizado(evento) ? 'home-match-card-finished' : ''}`} to={rutaEventoHome(evento, usuario)}>
       <div className="match-flags" aria-hidden="true">
-        <span>{banderaPais(evento.equipo_local)}</span>
+        <BanderaPais pais={evento.equipo_local} />
         <strong>VS</strong>
-        <span>{banderaPais(evento.equipo_visitante)}</span>
+        <BanderaPais pais={evento.equipo_visitante} />
       </div>
       <div className="match-teams">
         <strong>{evento.equipo_local}</strong>

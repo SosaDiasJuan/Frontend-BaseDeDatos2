@@ -120,6 +120,10 @@ export function banderaPais(pais) {
     .replace(/./g, (char) => String.fromCodePoint(127397 + char.charCodeAt(0)));
 }
 
+export function codigoBanderaPais(pais) {
+  return COUNTRY_CODES[pais]?.toLowerCase() || 'xx';
+}
+
 export function ordenarEventosPorInteres(eventos = [], paisUsuario) {
   const pais = String(paisUsuario || '').toLowerCase();
   return [...eventos].sort((a, b) => {
