@@ -16,7 +16,7 @@ export default function EntradaQrModal({ entrada, onClose }) {
     try {
       const nuevo = await entradasApi.generarQr(entrada.id);
       setQr(nuevo);
-      setSegundos(segundosRestantes(nuevo.expira_en));
+      setSegundos(30);
       setError(null);
     } catch (err) {
       setError(err);
@@ -40,10 +40,12 @@ export default function EntradaQrModal({ entrada, onClose }) {
   }, [cargar]);
 
   useEffect(() => {
-    if (!qr?.expira_en) return undefined;
+    if (!qr) return;
+
     const contador = setInterval(() => {
-      setSegundos(segundosRestantes(qr.expira_en));
+      setSegundos((s) => Math.max(0, s - 1));
     }, 1000);
+
     return () => clearInterval(contador);
   }, [qr]);
 
